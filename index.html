@@ -3,24 +3,43 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Afrotalk - Meu PWA</title>
+<title>Afrotalk</title>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#000000">
 <style>
-body{margin:0;font-family:sans-serif;background:#000;color:#fff;display:flex;align-items:center;justify-content:center;height:100vh;flex-direction:column}
-h1{font-size:32px}
-p{opacity:0.7}
-button{padding:15px 30px;border-radius:30px;border:0;background:#fff;color:#000;font-weight:bold;margin-top:20px;font-size:16px}
+*{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,sans-serif}
+body{background:#000;color:#fff;min-height:100vh;display:flex;justify-content:center;padding:20px}
+.container{width:100%;max-width:380px;margin-top:10px}
+.logo{width:60px;height:60px;background:#fff;border-radius:16px;margin:0 auto 16px;display:flex;justify-content:center;align-items:center;font-size:30px}
+h1{text-align:center;font-size:24px}.sub{text-align:center;color:#888;font-size:13px;margin:6px 0 24px}
+.input,select{background:#111;border:1px solid #222;border-radius:12px;width:100%;padding:14px;color:#fff;margin-bottom:12px;outline:none;font-size:15px}
+.row{display:flex;gap:12px}.row>*{flex:1}
+.label{font-size:12px;color:#888;margin:8px 0 6px;display:block}
+.btn{background:#fff;color:#000;border:none;border-radius:12px;width:100%;padding:16px;font-weight:800;font-size:16px;margin-top:16px}
 </style>
 </head>
 <body>
-<h1>Afrotalk PWA 🔥</h1>
-<p>CEO ceoafrotalk-dot no ar!</p>
-<button onclick="alert('Tá funcionando CEO!')">Testar PWA</button>
+<div class="container">
+<div class="logo">💬</div>
+<h1>Criar conta</h1>
+<p class="sub">Entra pro Afrotalk CEO!</p>
+<label class="label">Nome completo</label>
+<input id="nome" class="input" placeholder="José Afonso">
+<label class="label">Telefone ou Email</label>
+<input id="contato" class="input" placeholder="84... ou email">
+<label class="label">Género</label>
+<select id="genero" class="input"><option value="">Seleciona</option><option>Masculino</option><option>Feminino</option><option>Outro</option></select>
+<div class="row"><div><label class="label">Nascimento</label><input id="nasc" type="date" class="input"></div><div><label class="label">Cidade</label><input id="cidade" class="input" placeholder="Maputo"></div></div>
+<label class="label">País</label><input id="pais" class="input" value="Moçambique">
+<button class="btn" onclick="cadastrar()">Criar conta 🔥</button>
+</div>
 <script>
-if('serviceWorker' in navigator){
- navigator.serviceWorker.register('sw.js')
+function cadastrar(){
+ const d={nome:document.getElementById('nome').value,contato:document.getElementById('contato').value,genero:document.getElementById('genero').value,nasc:document.getElementById('nasc').value,cidade:document.getElementById('cidade').value,pais:document.getElementById('pais').value};
+ if(!d.nome||!d.contato){alert('Preenche nome e contato CEO!');return;}
+ localStorage.setItem('afro_user',JSON.stringify(d));alert('Bem-vindo '+d.nome+' 🔥');window.location.href='chat.html';
 }
+if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js');}
 </script>
 </body>
 </html>
