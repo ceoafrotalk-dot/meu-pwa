@@ -3,148 +3,98 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Afrotalk - 100% Moçambicano</title>
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#f5c518">
+<title>AfroTalk</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial}
-body{background:#000;color:#fff;overflow-x:hidden}
-header{background:#0f0f0f;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #222;position:sticky;top:0;z-index:50}
-.header-left{display:flex;align-items:center;gap:8px}
-.header-left h1{color:#f5c518;font-size:22px;font-weight:900;letter-spacing:-0.5px}
-.header-left small{background:#f5c518;color:#000;padding:2px 5px;border-radius:4px;font-size:10px;font-weight:bold}
-.header-right{display:flex;gap:16px;align-items:center;font-size:20px}
-.header-right span{cursor:pointer}
-.stories-bar{display:flex;gap:12px;overflow-x:auto;padding:12px 10px;background:#0a0a0a;border-bottom:1px solid #1a1a1a;scrollbar-width:none}
-.stories-bar::-webkit-scrollbar{display:none}
-.story{min-width:64px;text-align:center;cursor:pointer}
-.story-ring{width:60px;height:60px;border-radius:50%;border:3px solid #f5c518;padding:2px;background:linear-gradient(45deg,#f5c518,#ff8a00);display:flex;align-items:center;justify-content:center;font-size:26px;margin:auto;position:relative}
-.story-ring-inner{width:100%;height:100%;border-radius:50%;background:#222;display:flex;align-items:center;justify-content:center;border:2px solid #000}
-.story-ring.visto{border-color:#444;background:#444}
-.story span{font-size:11px;color:#ddd;display:block;margin-top:6px;max-width:64px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.add-story .story-ring{background:#111;border-style:dashed;border-color:#f5c518}
-.post-box{background:#151515;padding:12px;border-bottom:1px solid #222;display:flex;gap:10px}
-.post-box .avatar{width:38px;height:38px;background:#222;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.post-box-main{flex:1}
-.post-box textarea{width:100%;background:#222;border:none;border-radius:18px;padding:12px 14px;color:#fff;resize:none;outline:none;font-size:15px}
-.post-actions{display:flex;justify-content:space-between;align-items:center;margin-top:10px}
-.post-actions-icons{display:flex;gap:14px;color:#f5c518;font-size:18px}
-.btn-pub{background:#f5c518;color:#000;border:none;padding:8px 18px;border-radius:20px;font-weight:800;cursor:pointer}
-.feed{padding-bottom:80px}
-.post{background:#151515;margin:8px 0;border-bottom:1px solid #1a1a1a;padding:12px 14px}
-.post-head{display:flex;gap:10px;align-items:center;margin-bottom:8px}
-.post-head .avatar{width:38px;height:38px;background:#333;border-radius:50%;display:flex;align-items:center;justify-content:center}
-.post-head b{font-size:14px}
-.post-head small{color:#777;font-size:12px}
-.post-text{font-size:15px;line-height:1.4;margin:8px 0}
-.actions{display:flex;gap:18px;margin-top:10px;color:#aaa;font-size:14px}
-.actions span{cursor:pointer}
-.actions span:hover{color:#f5c518}
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#0f0f0f;display:flex;justify-content:space-around;padding:10px 0 14px 0;border-top:1px solid #222;z-index:40}
-.bottom-nav span{font-size:22px;cursor:pointer}
-.bottom-nav .active{color:#f5c518}
-#searchBox{position:fixed;top:52px;left:0;right:0;background:#111;padding:10px;display:none;z-index:60;border-bottom:1px solid #222}
-#searchBox input{width:100%;background:#222;border:none;border-radius:20px;padding:10px 15px;color:#fff;outline:none}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+body{background:#000;color:#fff;min-height:100vh;padding-bottom:70px}
+header{padding:12px 14px;display:flex;justify-content:space-between;align-items:center;background:#000}
+header h1{font-size:16px;font-weight:700}
+header.icons{display:flex;gap:14px;font-size:16px}
+.user-bar{margin:0 12px;background:#111;border-radius:20px;padding:8px 12px;font-size:12px;color:#888;display:flex;align-items:center;gap:6px}
+.user-bar b{color:#fff}
+.stories{display:flex;gap:14px;padding:14px 12px;overflow-x:auto}
+.stories::-webkit-scrollbar{display:none}
+.s{text-align:center;min-width:52px;cursor:pointer}
+.ring{width:52px;height:52px;border-radius:50%;border:2px solid #ff2e2e;display:flex;align-items:center;justify-content:center;background:#1a1a1a;font-size:16px;font-weight:bold}
+.s:first-child.ring{border-style:dashed;border-color:#555}
+.s span{font-size:11px;margin-top:5px;display:block;color:#ccc}
+.post{background:#0e0e0e;margin:8px 0;border-top:1px solid #1a1a1a;border-bottom:1px solid #1a1a1a}
+.post-top{padding:10px 12px;display:flex;align-items:center;gap:8px}
+.post-top.av{width:28px;height:28px;border-radius:50%;background:#222;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:bold}
+.post-top b{font-size:13px}
+.post-top small{color:#666;font-size:11px}
+.post-img{width:100%;background:#000;min-height:220px;display:flex;align-items:center;justify-content:center;color:#555;font-size:13px}
+.post-img img{width:100%;max-height:400px;object-fit:cover}
+.post-text{padding:14px 12px;text-align:center;color:#666;font-size:13px}
+.post-actions{display:flex;justify-content:space-around;padding:10px 0;border-top:1px solid #1a1a1a;font-size:12px;color:#aaa}
+.post-actions span{cursor:pointer}
+.bottom{position:fixed;bottom:0;left:0;right:0;background:#0a0a0a;border-top:1px solid #1a1a1a;display:flex;justify-content:space-around;padding:12px 0;z-index:99}
+.bottom span{font-size:18px;cursor:pointer;opacity:.6}
+.bottom.active{opacity:1}
 </style>
 </head>
 <body>
 
 <header>
-  <div class="header-left">
-    <h1>Afrotalk</h1>
-    <small>🇲🇿 MZ</small>
-  </div>
-  <div class="header-right">
-    <span onclick="toggleSearch()">🔍</span>
-    <span>💬</span>
-    <span>🔔</span>
-  </div>
+  <h1>AfroTalk</h1>
+  <div class="icons"><span>➕</span><span>🔍</span></div>
 </header>
 
-<div id="searchBox">
-  <input type="text" placeholder="Pesquisar no Afrotalk...">
+<div class="user-bar">
+  👋 <b>Arlindo Massingue</b> · Maputo, Moçambique | Masculino
 </div>
 
-<!-- STORIES COMPLETO -->
-<div class="stories-bar" id="stories">
-  <div class="story add-story" onclick="addStory()">
-    <div class="story-ring"><div class="story-ring-inner">+</div></div>
-    <span>Teu Story</span>
-  </div>
-  <div class="story" onclick="verStory('Afrotalk Oficial','🔥 Bem-vindo ao Afrotalk! A rede 100% moçambicana! 🇲🇿')">
-    <div class="story-ring"><div class="story-ring-inner">🇲🇿</div></div>
-    <span>Afrotalk</span>
-  </div>
-  <div class="story" onclick="verStory('João Cossa','Churrasco na Bilene hoje! Quem alinha? 🍖')">
-    <div class="story-ring"><div class="story-ring-inner">👤</div></div>
-    <span>João</span>
-  </div>
-  <div class="story" onclick="verStory('CEO','Lançamos o Afrotalk! 🚀')">
-    <div class="story-ring"><div class="story-ring-inner">🔥</div></div>
-    <span>CEO</span>
-  </div>
-  <div class="story" onclick="verStory('Suraia','Maputo vibes ✨')">
-    <div class="story-ring"><div class="story-ring-inner">💃</div></div>
-    <span>Suraia</span>
-  </div>
+<div class="stories">
+  <div class="s" onclick="addStory()"><div class="ring">👤</div><span>Teu story</span></div>
+  <div class="s" onclick="verStory('João Cossa','Praia da Bilene hoje! 🌊')"><div class="ring">J</div><span>João</span></div>
+  <div class="s" onclick="verStory('Maria','Maputo vibes ✨')"><div class="ring">M</div><span>Maria</span></div>
+  <div class="s" onclick="verStory('Ana','Novidades chegando')"><div class="ring">A</div><span>Ana</span></div>
 </div>
 
-<div class="post-box">
-  <div class="avatar">🔥</div>
-  <div class="post-box-main">
-    <textarea id="postText" rows="2" placeholder="O que está a acontecer, CEO?"></textarea>
-    <div class="post-actions">
-      <div class="post-actions-icons"><span>🖼️</span><span>🎥</span><span>😊</span><span>📍</span></div>
-      <button class="btn-pub" onclick="publicar()">Publicar</button>
-    </div>
-  </div>
-</div>
-
-<div class="feed" id="feed">
+<div id="feed">
   <div class="post">
-    <div class="post-head"><div class="avatar">🇲🇿</div><div><b>Afrotalk Oficial</b> <small>· agora · 🌍</small></div><span style="margin-left:auto">⋯</span></div>
-    <div class="post-text">Bem-vindo ao Afrotalk! A rede 100% Africana<br>Feita por nós, para nós! #Afrotal</div>
-    <div class="actions"><span onclick="curtir(this)">❤️ Curtir</span><span>💬 12 Comentar</span><span>↗️ Partilhar</span></div>
+    <div class="post-top"><div class="av">J</div><b>João Cossa</b><small>· Chissano</small></div>
+    <div class="post-img" id="img1">🖼️ praia-bilene.jpg</div>
+    <div class="post-actions"><span>❤️ 12</span><span>💬 Comentar</span><span>↗️ Partilhar</span></div>
   </div>
+
   <div class="post">
-    <div class="post-head"><div class="avatar">👤</div><div><b>João Cossa</b> <small>· 5 min · 📍 Bilene</small></div><span style="margin-left:auto">⋯</span></div>
-    <div class="post-text">Alguém em Bilene hoje? Vamos fazer um churrasco! 🍖🔥</div>
-    <div class="actions"><span onclick="curtir(this)">❤️ Curtir</span><span>💬 3 Comentar</span><span>↗️ Partilhar</span></div>
+    <div class="post-top"><div class="av">M</div><b>Maria</b><small>· Maputo</small></div>
+    <div class="post-text">🔥 Feed Afrotalk funcionando!</div>
+    <div class="post-actions"><span>❤️ 45</span><span>💬 Comentar</span><span>↗️ Partilhar</span></div>
   </div>
 </div>
 
-<div class="bottom-nav">
-  <span class="active">🏠</span><span>🔍</span><span>➕</span><span>💬</span><span>👤</span>
+<div class="bottom">
+  <span class="active">🏠</span><span>👥</span><span>💬</span><span>🔔</span><span>⚙️</span>
 </div>
 
 <script>
-function toggleSearch(){ let s=document.getElementById('searchBox'); s.style.display=s.style.display=='block'?'none':'block'; }
-function publicar(){
-  let txt=document.getElementById('postText').value.trim();
-  if(!txt) return;
-  let feed=document.getElementById('feed');
-  let html=`<div class="post"><div class="post-head"><div class="avatar">🔥</div><div><b>CEO</b> <small>· agora</small></div><span style="margin-left:auto">⋯</span></div><div class="post-text">${txt}</div><div class="actions"><span onclick="curtir(this)">❤️ Curtir</span><span>💬 Comentar</span><span>↗️ Partilhar</span></div></div>`;
-  feed.innerHTML=html+feed.innerHTML;
-  document.getElementById('postText').value='';
-}
-function curtir(el){ el.innerText=el.innerText.includes('❤️')?'💛 Curtiu':'❤️ Curtir'; el.style.color=el.innerText.includes('Curtiu')?'#f5c518':''; }
-function verStory(nome,texto){
-  let v=document.createElement('div');
-  v.style.cssText='position:fixed;top:0;left:0;right:0;bottom:0;background:#000;z-index:9999;display:flex;flex-direction:column;padding:12px;animation:fadeIn .2s';
-  v.innerHTML=`<div style="display:flex;gap:4px"><div style="flex:1;height:3px;background:#f5c518;border-radius:10px"></div><div style="flex:1;height:3px;background:#333;border-radius:10px"></div><div style="flex:1;height:3px;background:#333;border-radius:10px"></div></div><div style="display:flex;align-items:center;gap:10px;margin-top:12px"><div style="width:36px;height:36px;border-radius:50%;background:#222;border:2px solid #f5c518;display:flex;align-items:center;justify-content:center">🔥</div><b>${nome}</b><small style="color:#888"> agora</small><span style="margin-left:auto;font-size:22px;cursor:pointer" onclick="this.closest('div').parentElement.parentElement.remove()">✕</span></div><div style="flex:1;display:flex;align-items:center;justify-content:center;font-size:26px;text-align:center;padding:20px;line-height:1.3">${texto}</div><div style="display:flex;gap:10px;align-items:center"><input placeholder="Responder a ${nome}..." style="flex:1;background:#1a1a1a;border:1px solid #333;border-radius:20px;padding:12px 16px;color:#fff;outline:none"><span style="font-size:22px">❤️</span><span style="font-size:22px">✈️</span></div>`;
-  v.addEventListener('click',e=>{ if(e.target===v) v.remove(); });
-  document.body.appendChild(v);
-  setTimeout(()=>{ if(v.parentNode) v.remove(); },6000);
+function verStory(nome,txt){
+  let d=document.createElement('div');
+  d.style.cssText='position:fixed;inset:0;background:#000;z-index:9999;padding:15px;display:flex;flex-direction:column';
+  d.innerHTML=`<div style="display:flex;align-items:center;gap:8px"><div style="width:30px;height:30px;border-radius:50%;background:#222;display:flex;align-items:center;justify-content:center">${nome[0]}</div><b>${nome}</b><span style="margin-left:auto;font-size:20px" onclick="this.parentElement.parentElement.remove()">✕</span></div><div style="flex:1;display:flex;align-items:center;justify-content:center;font-size:20px;text-align:center">${txt}</div>`;
+  document.body.appendChild(d);
+  setTimeout(()=>{if(d.parentNode)d.remove()},4000);
 }
 function addStory(){
-  let t=prompt("O que vai no teu Story?");
+  let t=prompt('Teu story:');
   if(!t) return;
-  let bar=document.getElementById('stories');
-  let d=document.createElement('div');
-  d.className='story';
-  d.onclick=()=>verStory('Você',t);
-  d.innerHTML=`<div class="story-ring"><div class="story-ring-inner">🔥</div></div><span>Você</span>`;
-  bar.appendChild(d);
+  let s=document.createElement('div');
+  s.className='s';
+  s.innerHTML=`<div class="ring">${t[0]}</div><span>Você</span>`;
+  s.onclick=()=>verStory('Você',t);
+  document.querySelector('.stories').appendChild(s);
+}
+// Upload de foto real
+document.getElementById('img1').onclick=()=>{
+  let i=document.createElement('input');i.type='file';i.accept='image/*';
+  i.onchange=e=>{
+    let f=e.target.files[0]; if(!f) return;
+    let r=new FileReader();
+    r.onload=ev=>{document.getElementById('img1').innerHTML=`<img src="${ev.target.result}">`};
+    r.readAsDataURL(f);
+  }; i.click();
 }
 </script>
 </body>
