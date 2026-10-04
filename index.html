@@ -1,45 +1,59 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="pt">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Afrotalk</title>
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#000000">
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,sans-serif}
-body{background:#000;color:#fff;min-height:100vh;display:flex;justify-content:center;padding:20px}
-.container{width:100%;max-width:380px;margin-top:10px}
-.logo{width:60px;height:60px;background:#fff;border-radius:16px;margin:0 auto 16px;display:flex;justify-content:center;align-items:center;font-size:30px}
-h1{text-align:center;font-size:24px}.sub{text-align:center;color:#888;font-size:13px;margin:6px 0 24px}
-.input,select{background:#111;border:1px solid #222;border-radius:12px;width:100%;padding:14px;color:#fff;margin-bottom:12px;outline:none;font-size:15px}
-.row{display:flex;gap:12px}.row>*{flex:1}
-.label{font-size:12px;color:#888;margin:8px 0 6px;display:block}
-.btn{background:#fff;color:#000;border:none;border-radius:12px;width:100%;padding:16px;font-weight:800;font-size:16px;margin-top:16px}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
+body{background:#000;color:#fff}
+header{background:#111;padding:12px 15px;display:flex;justify-content:space-between;border-bottom:1px solid #222;position:sticky;top:0}
+header h1{color:#f5c518;font-size:20px}
+.stories-bar{display:flex;gap:12px;overflow-x:auto;padding:12px 10px;background:#0a0a0a;border-bottom:1px solid #222}
+.story{min-width:62px;text-align:center;cursor:pointer}
+.story-ring{width:58px;height:58px;border-radius:50%;border:3px solid #f5c518;background:#222;display:flex;align-items:center;justify-content:center;font-size:24px;margin:auto}
+.story span{font-size:11px;color:#ccc;display:block;margin-top:5px}
+.add-story .story-ring{border-style:dashed;color:#f5c518}
+.post-box{background:#151515;padding:12px;border-bottom:1px solid #222}
+.post-box textarea{width:100%;background:#222;border:none;border-radius:10px;padding:12px;color:#fff;outline:none}
+.btn-pub{background:#f5c518;color:#000;border:none;padding:8px 18px;border-radius:20px;font-weight:bold;float:right;margin-top:8px}
+.post{background:#151515;margin:8px;border-radius:12px;padding:12px}
 </style>
 </head>
 <body>
-<div class="container">
-<div class="logo">💬</div>
-<h1>Criar conta</h1>
-<p class="sub">Entra pro Afrotalk CEO!</p>
-<label class="label">Nome completo</label>
-<input id="nome" class="input" placeholder="José Afonso">
-<label class="label">Telefone ou Email</label>
-<input id="contato" class="input" placeholder="84... ou email">
-<label class="label">Género</label>
-<select id="genero" class="input"><option value="">Seleciona</option><option>Masculino</option><option>Feminino</option><option>Outro</option></select>
-<div class="row"><div><label class="label">Nascimento</label><input id="nasc" type="date" class="input"></div><div><label class="label">Cidade</label><input id="cidade" class="input" placeholder="Maputo"></div></div>
-<label class="label">País</label><input id="pais" class="input" value="Moçambique">
-<button class="btn" onclick="cadastrar()">Criar conta 🔥</button>
+<header><h1>Afrotalk</h1><span>🇲🇿</span></header>
+
+<div class="stories-bar" id="stories">
+  <div class="story add-story" onclick="addStory()"><div class="story-ring">+</div><span>Teu Story</span></div>
+  <div class="story" onclick="verStory('Afrotalk Oficial','Bem-vindo!')"><div class="story-ring">🇲🇿</div><span>Afrotalk</span></div>
+  <div class="story" onclick="verStory('João','Churrasco na Bilene!')"><div class="story-ring">👤</div><span>João</span></div>
+  <div class="story" onclick="verStory('CEO','Novo app!')"><div class="story-ring">🔥</div><span>CEO</span></div>
 </div>
+
+<div class="post-box">
+<textarea id="postText" rows="3" placeholder="O que está a acontecer, CEO?"></textarea>
+<div style="overflow:hidden"><button class="btn-pub" onclick="publicar()">Publicar</button></div>
+</div>
+
+<div id="feed">
+  <div class="post"><b>Afrotalk Oficial</b> · agora<br>Bem-vindo ao Afrotalk! A rede 100% moçambicana 🇲🇿<br><br>❤️ Curtir 💬 Comentar ↗️ Partilhar</div>
+  <div class="post"><b>João Cossa</b> · 5 min<br>Alguém em Bilene hoje? Vamos fazer um churrasco!<br><br>❤️ Curtir 💬 Comentar ↗️ Partilhar</div>
+</div>
+
 <script>
-function cadastrar(){
- const d={nome:document.getElementById('nome').value,contato:document.getElementById('contato').value,genero:document.getElementById('genero').value,nasc:document.getElementById('nasc').value,cidade:document.getElementById('cidade').value,pais:document.getElementById('pais').value};
- if(!d.nome||!d.contato){alert('Preenche nome e contato CEO!');return;}
- localStorage.setItem('afro_user',JSON.stringify(d));alert('Bem-vindo '+d.nome+' 🔥');window.location.href='chat.html';
+function publicar(){
+  let txt=document.getElementById('postText').value;
+  if(!txt) return;
+  document.getElementById('feed').innerHTML = `<div class="post"><b>CEO</b> · agora<br>${txt}<br><br>❤️ Curtir 💬 Comentar ↗️ Partilhar</div>` + document.getElementById('feed').innerHTML;
+  document.getElementById('postText').value='';
 }
-if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js');}
+function verStory(n,t){alert(n+": "+t)}
+function addStory(){
+  let t=prompt("O que postar no Story?");
+  if(!t) return;
+  document.getElementById('stories').innerHTML+=`<div class="story" onclick="verStory('Você','${t}')"><div class="story-ring">🔥</div><span>Você</span></div>`;
+}
 </script>
 </body>
-</html> 
+</html>
