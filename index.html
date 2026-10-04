@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-MZ">
+<html lang="pt">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,26 +7,31 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
 body{background:#000;color:#fff;padding-bottom:80px}
-header{background:#000;padding:12px;display:flex;justify-content:space-between;border-bottom:1px solid #111}
-header h1{color:#f5c518;font-size:16px}
-.user{margin:8px;background:#111;border-radius:16px;padding:8px 12px;font-size:11px;color:#888}
-.user b{color:#fff}
-.stories{display:flex;gap:12px;padding:12px;overflow-x:auto;border-bottom:1px solid #111}
-.st{min-width:58px;text-align:center}
-.ring{width:54px;height:54px;border-radius:50%;border:2.5px solid #ff2e2e;background:#1a1a1a;display:flex;align-items:center;justify-content:center;font-weight:bold}
-.st span{font-size:10px;color:#aaa;display:block;margin-top:4px}
-.box{margin:8px;background:#121212;border:1px solid #1e1e1e;border-radius:10px;padding:10px;display:flex;gap:8px}
-.box input{flex:1;background:#1e1e1e;border:none;border-radius:20px;padding:10px;color:#fff}
-.box button{background:#f5c518;border:none;border-radius:20px;padding:8px 14px;font-weight:bold}
-.post{background:#121212;margin:8px;border:1px solid #1e1e1e;border-radius:10px;padding:10px}
-.bottom{position:fixed;bottom:0;left:0;right:0;background:#0a0a0a;border-top:1px solid #222;display:flex;justify-content:space-around;padding:12px 0}
+header{padding:14px 12px;display:flex;justify-content:space-between;border-bottom:1px solid #111;position:sticky;top:0;background:#000;z-index:10}
+header h1{color:#f5c518;font-size:18px;font-weight:900}
+.user{margin:8px;background:#111;border-radius:16px;padding:10px 12px;font-size:12px}.user b{color:#fff}
+.stories{display:flex;gap:14px;padding:12px;overflow-x:auto;border-bottom:1px solid #111}
+.st{min-width:60px;text-align:center}.ring{width:56px;height:56px;border-radius:50%;border:2.5px solid #ff2e2e;background:#1a1a1a;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:18px}
+.st span{font-size:10px;color:#aaa;margin-top:5px;display:block}
+.box{margin:10px 8px;background:#121212;border:1px solid #1e1e1e;border-radius:12px;padding:10px;display:flex;gap:8px}
+.box input{flex:1;background:#1e1e1e;border:none;border-radius:20px;padding:12px;color:#fff;outline:none}
+.box button{background:#f5c518;border:none;border-radius:20px;padding:10px 18px;font-weight:800;color:#000}
+.post{background:#121212;margin:8px;border:1px solid #1e1e1e;border-radius:12px;padding:12px}
+.post-head{display:flex;justify-content:space-between}.post-text{margin:8px 0;font-size:13.5px}
+.actions{display:flex;justify-content:space-around;border-top:1px solid #1e1e1e;margin-top:10px;padding-top:10px}
+.act{display:flex;gap:6px;cursor:pointer;font-size:13px;color:#aaa}.act.liked{color:#ff2e2e}
+.comments{margin-top:10px;display:none}.comments.show{display:block}
+.com{font-size:12px;margin:6px 0;background:#1a1a1a;padding:6px 10px;border-radius:12px}.com b{color:#f5c518}
+.comment-box{display:flex;gap:6px;margin-top:8px}.comment-box input{flex:1;background:#1e1e1e;border:none;border-radius:20px;padding:8px 12px;color:#fff;font-size:12px}
+.comment-box button{background:#f5c518;border:none;border-radius:20px;padding:6px 12px;font-size:12px;font-weight:700}
+.bottom{position:fixed;bottom:0;left:0;right:0;background:#0a0a0a;border-top:1px solid #222;display:flex;justify-content:space-around;padding:14px 0}
 </style>
 </head>
 <body>
-<header><h1>Afrotalk</h1><span>🔍</span></header>
-<div class="user">👋 <b>Arlindo Massingue</b> · Maputo, Moçambique | Masculino</div>
+<header><h1>Afrotalk</h1><span>...</span></header>
+<div class="user"><b>Arlindo Massingue</b></div>
 <div class="stories">
-<div class="st"><div class="ring" style="border-color:#555;border-style:dashed">+</div><span>Teu story</span></div>
+<div class="st"><div class="ring" style="border-color:#444;border-style:dashed">+</div><span>Teu story</span></div>
 <div class="st"><div class="ring">J</div><span>João</span></div>
 <div class="st"><div class="ring">M</div><span>Maria</span></div>
 <div class="st"><div class="ring">A</div><span>Ana</span></div>
@@ -34,16 +39,56 @@ header h1{color:#f5c518;font-size:16px}
 </div>
 <div class="box"><input id="t" placeholder="O que está acontecendo, CEO?"><button onclick="postar()">Publicar</button></div>
 <div id="feed">
-<div class="post"><b>João Cossa</b> <small>· 5 min</small><div style="margin-top:6px">Alguém em Bilene hoje? Vamos fazer um churrasco!</div></div>
-<div class="post"><b>Afrotalk Oficial</b> <small>· agora</small><div style="margin-top:6px">Bem-vindo ao Afrotalk! Rede 100% moçambicana 🇲🇿</div></div>
+<div class="post">
+<div class="post-head"><b>João Cossa</b><small>· 5 min</small></div>
+<div class="post-text">Alguém em Bilene hoje? Vamos fazer um churrasco!</div>
+<div class="actions">
+<div class="act" onclick="like(this)"><span>❤️</span><span class="lc">12</span> Likes</div>
+<div class="act" onclick="toggleCom(this)"><span>💬</span><span class="cc">2</span> Comentar</div>
+<div class="act" onclick="partilhar(this)"><span>↗️</span> Partilhar</div>
+</div>
+<div class="comments">
+<div class="com"><b>Maria:</b> Eu vou!</div>
+<div class="com"><b>Ana:</b> Que horas?</div>
+<div class="comment-box"><input placeholder="Escreve..." onkeypress="if(event.key==='Enter')addCom(this)"><button onclick="addCom(this.previousElementSibling)">Enviar</button></div>
+</div>
+</div>
+<div class="post">
+<div class="post-head"><b>Afrotalk Oficial</b><small>· agora</small></div>
+<div class="post-text">Bem-vindo ao Afrotalk! A nova rede que conecta todos.</div>
+<div class="actions">
+<div class="act" onclick="like(this)"><span>❤️</span><span class="lc">45</span> Likes</div>
+<div class="act" onclick="toggleCom(this)"><span>💬</span><span class="cc">0</span> Comentar</div>
+<div class="act" onclick="partilhar(this)"><span>↗️</span> Partilhar</div>
+</div>
+<div class="comments"><div class="comment-box"><input placeholder="Escreve..." onkeypress="if(event.key==='Enter')addCom(this)"><button onclick="addCom(this.previousElementSibling)">Enviar</button></div></div>
+</div>
 </div>
 <div class="bottom"><span>🏠</span><span>👥</span><span>💬</span><span>🔔</span><span>⚙️</span></div>
 <script>
+function like(el){
+let c=el.querySelector('.lc');let n=parseInt(c.innerText);
+if(el.classList.contains('liked')){el.classList.remove('liked');c.innerText=n-1}
+else{el.classList.add('liked');c.innerText=n+1}
+}
+function toggleCom(el){el.closest('.post').querySelector('.comments').classList.toggle('show')}
+function addCom(inp){
+let t=inp.value.trim();if(!t)return;
+let coms=inp.closest('.comments');
+let d=document.createElement('div');d.className='com';d.innerHTML='<b>Tu:</b> '+t;
+coms.insertBefore(d,coms.querySelector('.comment-box'));inp.value='';
+let cc=inp.closest('.post').querySelector('.cc');cc.innerText=parseInt(cc.innerText)+1;
+}
+function partilhar(el){
+let txt=el.closest('.post').querySelector('.post-text').innerText;
+if(navigator.share){navigator.share({title:'Afrotalk',text:txt,url:location.href})}
+else{navigator.clipboard.writeText(txt+' - Afrotalk '+location.href);alert('Link copiado! ✅')}
+}
 function postar(){
-let v=document.getElementById('t').value;
-if(!v) return;
-document.getElementById('feed').innerHTML='<div class=post><b>Tu</b> <small>· agora</small><div style=margin-top:6px>'+v+'</div></div>'+document.getElementById('feed').innerHTML;
-document.getElementById('t').value='';
+let v=document.getElementById('t').value.trim();if(!v)return;
+let f=document.getElementById('feed');let d=document.createElement('div');d.className='post';
+d.innerHTML=`<div class=post-head><b>Tu</b><small>· agora</small></div><div class=post-text>${v}</div><div class=actions><div class=act onclick="like(this)"><span>❤️</span><span class=lc>0</span> Likes</div><div class=act onclick="toggleCom(this)"><span>💬</span><span class=cc>0</span> Comentar</div><div class=act onclick="partilhar(this)"><span>↗️</span> Partilhar</div></div><div class=comments><div class=comment-box><input placeholder="Escreve..." onkeypress="if(event.key==='Enter')addCom(this)"><button onclick="addCom(this.previousElementSibling)">Enviar</button></div></div>`;
+f.prepend(d);document.getElementById('t').value='';
 }
 </script>
 </body>
