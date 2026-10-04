@@ -1,7 +1,7 @@
 {
   "name": "Afrotalk",
   "short_name": "Afrotalk",
-  "start_url": "/meu-pwa/",
+  "start_url": "/",
   "display": "standalone",
   "background_color": "#000000",
   "theme_color": "#000000",
