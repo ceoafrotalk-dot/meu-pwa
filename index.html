@@ -2,100 +2,64 @@
 <html lang="pt-MZ">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AfroTalk</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Afrotalk</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
-body{background:#000;color:#fff;min-height:100vh;padding-bottom:70px}
-header{padding:12px 14px;display:flex;justify-content:space-between;align-items:center;background:#000}
-header h1{font-size:16px;font-weight:700}
-header.icons{display:flex;gap:14px;font-size:16px}
-.user-bar{margin:0 12px;background:#111;border-radius:20px;padding:8px 12px;font-size:12px;color:#888;display:flex;align-items:center;gap:6px}
+*{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,Arial}
+body{background:#000;color:#fff;padding-bottom:80px}
+header{position:sticky;top:0;z-index:10;background:#000;padding:12px 14px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #111}
+header h1{color:#f5c518;font-size:16px;font-weight:800}
+.user-bar{margin:10px;background:#111;border-radius:18px;padding:8px 12px;font-size:11px;color:#888}
 .user-bar b{color:#fff}
-.stories{display:flex;gap:14px;padding:14px 12px;overflow-x:auto}
+.stories{display:flex;gap:14px;padding:12px;overflow-x:auto;background:#000;border-bottom:1px solid #111}
 .stories::-webkit-scrollbar{display:none}
-.s{text-align:center;min-width:52px;cursor:pointer}
-.ring{width:52px;height:52px;border-radius:50%;border:2px solid #ff2e2e;display:flex;align-items:center;justify-content:center;background:#1a1a1a;font-size:16px;font-weight:bold}
-.s:first-child.ring{border-style:dashed;border-color:#555}
-.s span{font-size:11px;margin-top:5px;display:block;color:#ccc}
-.post{background:#0e0e0e;margin:8px 0;border-top:1px solid #1a1a1a;border-bottom:1px solid #1a1a1a}
-.post-top{padding:10px 12px;display:flex;align-items:center;gap:8px}
-.post-top.av{width:28px;height:28px;border-radius:50%;background:#222;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:bold}
-.post-top b{font-size:13px}
-.post-top small{color:#666;font-size:11px}
-.post-img{width:100%;background:#000;min-height:220px;display:flex;align-items:center;justify-content:center;color:#555;font-size:13px}
-.post-img img{width:100%;max-height:400px;object-fit:cover}
-.post-text{padding:14px 12px;text-align:center;color:#666;font-size:13px}
-.post-actions{display:flex;justify-content:space-around;padding:10px 0;border-top:1px solid #1a1a1a;font-size:12px;color:#aaa}
-.post-actions span{cursor:pointer}
-.bottom{position:fixed;bottom:0;left:0;right:0;background:#0a0a0a;border-top:1px solid #1a1a1a;display:flex;justify-content:space-around;padding:12px 0;z-index:99}
-.bottom span{font-size:18px;cursor:pointer;opacity:.6}
-.bottom.active{opacity:1}
+.story{min-width:56px;text-align:center;cursor:pointer}
+.ring{width:56px;height:56px;border-radius:50%;border:2.5px solid #ff2e2e;background:#1a1a1a;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:16px}
+.story span{font-size:10px;color:#aaa;margin-top:5px;display:block}
+.post{background:#121212;margin-bottom:8px;border-radius:12px;margin:8px;border:1px solid #1e1e1e}
+.post-top{padding:10px 12px;display:flex;gap:8px;align-items:center}
+.av{width:28px;height:28px;border-radius:50%;background:#222;display:flex;align-items:center;justify-content:center;font-size:11px}
+.post-top b{font-size:12px}
+.post-top small{color:#666;font-size:11px;margin-left:4px}
+.post-text{padding:0 12px 12px 12px;font-size:14px;line-height:1.4}
+.post-img{width:100%;height:240px;background:#0a0a0a;display:flex;align-items:center;justify-content:center;color:#444;border-radius:8px;margin:0 0 8px 0;overflow:hidden}
+.post-img img{width:100%;height:100%;object-fit:cover}
+.actions{display:flex;justify-content:space-around;padding:8px 0 10px 0;border-top:1px solid #1e1e1e;color:#777;font-size:12px}
+.bottom{position:fixed;bottom:0;left:0;right:0;background:#0a0a0a;border-top:1px solid #222;display:flex;justify-content:space-around;padding:10px 0 calc(10px + env(safe-area-inset-bottom));z-index:99}
+.bottom span{font-size:20px;opacity:.5}
+.bottom .active{opacity:1}
+.input-box{margin:8px;background:#121212;border-radius:12px;padding:10px;display:flex;gap:8px;border:1px solid #1e1e1e}
+.input-box input{flex:1;background:#1e1e1e;border:none;border-radius:20px;padding:10px 14px;color:#fff;outline:none}
+.input-box button{background:#f5c518;color:#000;border:none;border-radius:20px;padding:8px 16px;font-weight:800}
 </style>
 </head>
 <body>
 
-<header>
-  <h1>AfroTalk</h1>
-  <div class="icons"><span>➕</span><span>🔍</span></div>
-</header>
+<header><h1>Afrotalk</h1><div>➕ 🔍</div></header>
 
-<div class="user-bar">
-  👋 <b>Arlindo Massingue</b> · Maputo, Moçambique | Masculino
+<div class="user-bar">👋 <b>Arlindo Massingue</b> · Maputo, Moçambique | Masculino</div>
+
+<div class="stories" id="stories">
+  <div class="story" onclick="addS()"><div class="ring" style="border-style:dashed;border-color:#555">+</div><span>Teu story</span></div>
+  <div class="story" onclick="verS('João','Praia da Bilene hoje 🌊')"><div class="ring">J</div><span>João</span></div>
+  <div class="story" onclick="verS('Maria','Maputo vibes ✨')"><div class="ring">M</div><span>Maria</span></div>
+  <div class="story" onclick="verS('Ana','Novidades')"><div class="ring">A</div><span>Ana</span></div>
 </div>
 
-<div class="stories">
-  <div class="s" onclick="addStory()"><div class="ring">👤</div><span>Teu story</span></div>
-  <div class="s" onclick="verStory('João Cossa','Praia da Bilene hoje! 🌊')"><div class="ring">J</div><span>João</span></div>
-  <div class="s" onclick="verStory('Maria','Maputo vibes ✨')"><div class="ring">M</div><span>Maria</span></div>
-  <div class="s" onclick="verStory('Ana','Novidades chegando')"><div class="ring">A</div><span>Ana</span></div>
-</div>
+<div class="input-box"><input id="txt" placeholder="O que está acontecendo, CEO?"><button onclick="pub()">Publicar</button></div>
 
 <div id="feed">
-  <div class="post">
-    <div class="post-top"><div class="av">J</div><b>João Cossa</b><small>· Chissano</small></div>
-    <div class="post-img" id="img1">🖼️ praia-bilene.jpg</div>
-    <div class="post-actions"><span>❤️ 12</span><span>💬 Comentar</span><span>↗️ Partilhar</span></div>
-  </div>
-
-  <div class="post">
-    <div class="post-top"><div class="av">M</div><b>Maria</b><small>· Maputo</small></div>
-    <div class="post-text">🔥 Feed Afrotalk funcionando!</div>
-    <div class="post-actions"><span>❤️ 45</span><span>💬 Comentar</span><span>↗️ Partilhar</span></div>
-  </div>
+  <div class="post"><div class="post-top"><div class="av">J</div><b>João Cossa</b><small>· 5 min · Chissano</small></div><div class="post-img" onclick="upImg(this)">🖼️ praia-bilene.jpg<br><small>(clica pra por foto)</small></div><div class="post-text">Alguém em Bilene hoje? Vamos fazer um churrasco!</div><div class="actions"><span>❤️ 12</span><span>💬 Comentar</span><span>↗️ Partilhar</span></div></div>
+  <div class="post"><div class="post-top"><div class="av">🇲🇿</div><b>Afrotalk Oficial</b><small>· agora</small></div><div class="post-text">Bem-vindo ao Afrotalk! Uma rede 100% moçambicana 🇲🇿</div><div class="actions"><span>❤️ 45</span><span>💬 Comentar</span><span>↗️ Partilhar</span></div></div>
 </div>
 
-<div class="bottom">
-  <span class="active">🏠</span><span>👥</span><span>💬</span><span>🔔</span><span>⚙️</span>
-</div>
+<div class="bottom"><span class="active">🏠</span><span>👥</span><span>💬</span><span>🔔</span><span>⚙️</span></div>
 
 <script>
-function verStory(nome,txt){
-  let d=document.createElement('div');
-  d.style.cssText='position:fixed;inset:0;background:#000;z-index:9999;padding:15px;display:flex;flex-direction:column';
-  d.innerHTML=`<div style="display:flex;align-items:center;gap:8px"><div style="width:30px;height:30px;border-radius:50%;background:#222;display:flex;align-items:center;justify-content:center">${nome[0]}</div><b>${nome}</b><span style="margin-left:auto;font-size:20px" onclick="this.parentElement.parentElement.remove()">✕</span></div><div style="flex:1;display:flex;align-items:center;justify-content:center;font-size:20px;text-align:center">${txt}</div>`;
-  document.body.appendChild(d);
-  setTimeout(()=>{if(d.parentNode)d.remove()},4000);
-}
-function addStory(){
-  let t=prompt('Teu story:');
-  if(!t) return;
-  let s=document.createElement('div');
-  s.className='s';
-  s.innerHTML=`<div class="ring">${t[0]}</div><span>Você</span>`;
-  s.onclick=()=>verStory('Você',t);
-  document.querySelector('.stories').appendChild(s);
-}
-// Upload de foto real
-document.getElementById('img1').onclick=()=>{
-  let i=document.createElement('input');i.type='file';i.accept='image/*';
-  i.onchange=e=>{
-    let f=e.target.files[0]; if(!f) return;
-    let r=new FileReader();
-    r.onload=ev=>{document.getElementById('img1').innerHTML=`<img src="${ev.target.result}">`};
-    r.readAsDataURL(f);
-  }; i.click();
-}
+function pub(){let t=document.getElementById('txt').value; if(!t)return;let f=document.getElementById('feed');f.innerHTML=`<div class="post"><div class="post-top"><div class="av">🔥</div><b>Tu</b><small>· agora</small></div><div class="post-text">${t}</div><div class="actions"><span>❤️ 0</span><span>💬 Comentar</span><span>↗️ Partilhar</span></div></div>`+f.innerHTML;document.getElementById('txt').value='';}
+function verS(n,tx){let d=document.createElement('div');d.style.cssText='position:fixed;inset:0;background:#000;z-index:9999;padding:12px;display:flex;flex-direction:column';d.innerHTML=`<div style="display:flex;align-items:center;gap:8px"><div class="av">${n[0]}</div><b>${n}</b><span style="margin-left:auto;font-size:20px" onclick="this.parentElement.parentElement.remove()">✕</span></div><div style="flex:1;display:flex;align-items:center;justify-content:center;font-size:22px;text-align:center;padding:20px">${tx}</div>`;document.body.appendChild(d);setTimeout(()=>d.remove(),4000);}
+function addS(){let t=prompt('Teu story:');if(!t)return;let s=document.createElement('div');s.className='story';s.innerHTML=`<div class="ring">${t[0].toUpperCase()}</div><span>Você</span>`;s.onclick=()=>verS('Você',t);document.getElementById('stories').appendChild(s);}
+function upImg(el){let i=document.createElement('input');i.type='file';i.accept='image/*';i.onchange=e=>{let f=e.target.files[0];let r=new FileReader();r.onload=ev=>el.innerHTML=`<img src="${ev.target.result}">`;r.readAsDataURL(f)};i.click();}
 </script>
 </body>
 </html>
