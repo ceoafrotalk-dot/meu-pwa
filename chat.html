@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AfroTalk - Chat</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:sans-serif}
+body{background:#000;color:#fff;padding-bottom:110px;height:100vh;display:flex;flex-direction:column}
+.chat-header{display:flex;gap:12px;padding:12px 15px;border-bottom:1px solid #222;align-items:center;background:#000;position:sticky;top:0}
+.chat-header img{width:42px;height:42px;border-radius:50%;border:2px solid #ff4500}
+.msgs{flex:1;overflow-y:auto;padding:15px;display:flex;flex-direction:column;gap:10px}
+.msg{max-width:75%;padding:10px 14px;border-radius:18px;font-size:14px;line-height:1.4}
+.recebida{background:#1a1a1a;align-self:flex-start;color:#fff;border-bottom-left-radius:4px}
+.enviada{background:#fff;color:#000;align-self:flex-end;border-bottom-right-radius:4px;font-weight:500}
+.input-area{position:fixed;bottom:55px;left:0;width:100%;display:flex;gap:8px;padding:10px;background:#000;border-top:1px solid #222;align-items:center}
+.input-area input{flex:1;padding:12px 14px;border-radius:25px;border:none;background:#1a1a1a;color:#fff;outline:none}
+.input-area button{background:none;border:none;font-size:20px;cursor:pointer}
+.tabs{position:fixed;bottom:0;width:100%;display:flex;justify-content:space-around;background:#000;border-top:1px solid #222;padding:12px 0}
+.tabs button{background:none;border:none;font-size:22px;opacity:0.5}
+.tabs button.active{opacity:1}
+</style>
+</head>
+<body>
+<div class="chat-header">
+  <img src="https://i.pravatar.cc/100?img=2">
+  <div>
+    <b>João Cossa</b><br>
+    <small id="status" style="color:#2ecc71">● online agora</small>
+  </div>
+</div>
+
+<div id="mensagens" class="msgs">
+  <div class="msg recebida">Bro, tudo bem em Bilene?</div>
+  <div class="msg enviada">Tudo man! A lançar AfroTalk 😎</div>
+</div>
+
+<div class="input-area">
+  <button onclick="emoji()">😊</button>
+  <input id="txt" placeholder="Mensagem..." onkeypress="if(event.key=='Enter')enviar()"/>
+  <label style="cursor:pointer">📷<input type="file" hidden onchange="enviarFoto(this)"></label>
+  <button id="mic" onmousedown="gravar()" onmouseup="parar()" ontouchstart="gravar()" ontouchend="parar()">🎤</button>
+  <button onclick="enviar()" style="background:#fff;color:#000;border-radius:50%;width:36px;height:36px">➤</button>
+</div>
+
+<nav class="tabs">
+  <button onclick="location.href='home.html'">🏠</button>
+  <button onclick="location.href='solicitacoes.html'">👥</button>
+  <button class="active">💬</button>
+  <button onclick="location.href='notificacoes.html'">🔔</button>
+  <button onclick="location.href='definicoes.html'">⚙️</button>
+</nav>
+
+<script>
+let recorder, timer
+function enviar(){
+  let t=document.getElementById('txt').value
+  if(!t) return
+  addMsg(t,'enviada')
+  document.getElementById('txt').value=''
+  setTimeout(()=>{document.getElementById('status').innerText='visto por último hoje 14:23';document.getElementById('status').style.color='#888'},2000)
+}
+function addMsg(texto,tipo){
+  let div=document.createElement('div')
+  div.className='msg '+tipo
+  div.innerText=texto
+  document.getElementById('mensagens').appendChild(div)
+  document.getElementById('mensagens').scrollTop=document.getElementById('mensagens').scrollHeight
+}
+function emoji(){document.getElementById('txt').value+='😎'}
+function enviarFoto(input){addMsg('📷 Foto enviada','enviada')}
+async function gravar(){
+  try{
+  let stream=await navigator.mediaDevices.getUserMedia({audio:true})
+  recorder=new MediaRecorder(stream)
+  let chunks=[]
+  recorder.ondataavailable=e=>chunks.push(e.data)
+  recorder.onstop=()=>{
+    let blob=new Blob(chunks)
+    addMsg('🎤 Áudio de 1s','enviada')
+  }
+  recorder.start()
+  document.getElementById('mic').innerText='🔴'
+  timer=setTimeout(()=>parar(),60000)
+  }catch{alert('Microfone bloqueado')}
+}
+function parar(){if(recorder){recorder.stop();clearTimeout(timer);document.getElementById('mic').innerText='🎤'}}
+setInterval(()=>{
+  let online=Math.random()>0.5
+  document.getElementById('status').innerHTML=online?'<span style="color:#2ecc71">● online agora</span>':'<span style="color:#888">visto por último hoje 14:23</span>'
+},5000)
+</script>
+</body>
+</html>
