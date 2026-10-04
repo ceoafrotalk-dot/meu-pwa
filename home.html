@@ -30,7 +30,7 @@ header{padding:12px 15px;background:#111;display:flex;justify-content:space-betw
   <textarea id="texto" rows="3" placeholder="O que está a acontecer, CEO?"></textarea>
   <button class="btn-post" onclick="postar()">Publicar</button>
   <div style="clear:both"></div>
-</div>
+</div>i
 
 <div class="feed" id="feed"></div>
 
@@ -42,32 +42,47 @@ header{padding:12px 15px;background:#111;display:flex;justify-content:space-betw
   <button onclick="aba('def')">⚙️</button>
 </nav>
 
-<script>
-let posts = JSON.parse(localStorage.getItem('afro_posts')||'null') || [
-  {nome:"Afrotalk Oficial",texto:"Bem-vindo ao Afrotalk! A rede 100% moçambicana 🇲🇿",hora:"agora"},
-  {nome:"João Cossa",texto:"Alguém em Bilene hoje? Vamos fazer um churrasco!",hora:"5 min"}
-];
+<script type="module">
+import { db, collection, addDoc, getDocs, orderBy, query, serverTimestamp } from "./firebase.js";
 
-function render(){
-  document.getElementById('feed').innerHTML = posts.map(p=>`
-    <div class="post">
-      <div class="top"><div class="avatar">👤</div><b>${p.nome}</b> <small style="color:#777">· ${p.hora}</small></div>
-      <div>${p.texto}</div>
-      <div style="margin-top:10px;color:#777;font-size:14px">❤️ Curtir · 💬 Comentar · ↗️ Partilhar</div>
-    </div>
-  `).join('');
+async function render(){
+  const feedEl = document.getElementById('feed');
+  feedEl.innerHTML = "Carregando feed da nuvem...";
+  try {
+    const q = query(collection(db, "posts"), orderBy("createdAt", "desc"));
+    const snap = await getDocs(q);
+    let posts = [];
+    snap.forEach(d => posts.push(d.data()));
+    if(posts.length === 0){
+      posts = [{nome:"Afrotalk Oficial",texto:"Bem-vindo ao Afrotalk! A rede 100% moçambicana 🇲🇿",hora:"agora"}];
+    }
+    feedEl.innerHTML = posts.map(p=>`
+      <div class="post">
+        <div class="top"><div class="avatar">👤</div><b>${p.nome}</b> <small style="color:#777"> ${p.hora}</small></div>
+        <div>${p.texto}</div>
+        <div style="margin-top:10px;color:#777;font-size:14px">❤️ Curtir · 💬 Comentar · 📤 Partilhar</div>
+      </div>
+    `).join('');
+  } catch(e){
+    feedEl.innerHTML = "Erro: " + e.message;
+  }
 }
 
-function postar(){
-  let t = document.getElementById('texto').value.trim();
+window.postar = async function(){
+  const input = document.getElementById('texto');
+  const t = input.value.trim();
   if(!t) return alert("Escreve algo!");
-  posts.unshift({nome:"Tu",texto:t,hora:"agora"});
-  localStorage.setItem('afro_posts',JSON.stringify(posts));
-  document.getElementById('texto').value='';
+  input.value = "";
+  await addDoc(collection(db, "posts"), {
+    nome: "Tu",
+    texto: t,
+    hora: "agora",
+    createdAt: serverTimestamp()
+  });
   render();
 }
 
-function aba(nome){
+window.aba = function(nome){
   if(nome=='solicitacoes') location.href='solicitacoes.html';
   if(nome=='home') location.href='home.html';
   if(nome=='chat') location.href='chat.html';
@@ -77,5 +92,6 @@ function aba(nome){
 
 render();
 </script>
+
 </body>
 </html>
