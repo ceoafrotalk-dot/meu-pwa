@@ -57,11 +57,14 @@ async function render(){
     const snap = await getDocs(q);
     let posts = [];
     snap.forEach(d => posts.push(d.data()));
-    if(posts.length === 0){
-      posts = [{nome:"Afrotalk Oficial",texto:"Bem-vindo ao Afrotalk! A rede 100% moçambicana 🇲🇿",hora:"agora"}];
-    }
     feedEl.innerHTML = posts.map(p=>`
-      <div class="post">
+  <div class="post">
+    <div class="top"><div class="avatar">${p.nome[0]}</div><div><b>${p.nome}</b><br><small style="color:#777;font-size:13px">${p.hora} • 🌍</small></div></div>
+    <div style="padding:0 12px 12px 12px">${p.texto}</div>
+    <div style="display:flex;justify-content:space-between;padding:10px 12px;border-top:1px solid #333;color:#777;font-size:14px"><span>❤️ Curtir</span><span>💬 Comentar • 📤 Partilhar</span></div>
+    <div style="display:flex;justify-content:space-around;border-top:1px solid #333;padding:8px 0"><span>👍 Curtir</span><span>💬 Comentar</span><span>📤 Partilhar</span></div>
+  </div>
+`).join('');
         <div class="top"><div class="avatar">👤</div><b>${p.nome}</b> <small style="color:#777"> ${p.hora}</small></div>
         <div>${p.texto}</div>
         <div style="margin-top:10px;color:#777;font-size:14px">❤️ Curtir · 💬 Comentar · 📤 Partilhar</div>
