@@ -52,8 +52,100 @@ header{background:#0f0f0f;padding:10px 14px;display:flex;align-items:center;just
 <header>
   <div class="header-left">
     <h1>Afrotalk</h1>
-    <small>🔍</small>
+    <small>🇲🇿 MZ</small>
   </div>
   <div class="header-right">
     <span onclick="toggleSearch()">🔍</span>
-    
+    <span>💬</span>
+    <span>🔔</span>
+  </div>
+</header>
+
+<div id="searchBox">
+  <input type="text" placeholder="Pesquisar no Afrotalk...">
+</div>
+
+<!-- STORIES COMPLETO -->
+<div class="stories-bar" id="stories">
+  <div class="story add-story" onclick="addStory()">
+    <div class="story-ring"><div class="story-ring-inner">+</div></div>
+    <span>Teu Story</span>
+  </div>
+  <div class="story" onclick="verStory('Afrotalk Oficial','🔥 Bem-vindo ao Afrotalk! A rede 100% moçambicana! 🇲🇿')">
+    <div class="story-ring"><div class="story-ring-inner">🇲🇿</div></div>
+    <span>Afrotalk</span>
+  </div>
+  <div class="story" onclick="verStory('João Cossa','Churrasco na Bilene hoje! Quem alinha? 🍖')">
+    <div class="story-ring"><div class="story-ring-inner">👤</div></div>
+    <span>João</span>
+  </div>
+  <div class="story" onclick="verStory('CEO','Lançamos o Afrotalk! 🚀')">
+    <div class="story-ring"><div class="story-ring-inner">🔥</div></div>
+    <span>CEO</span>
+  </div>
+  <div class="story" onclick="verStory('Suraia','Maputo vibes ✨')">
+    <div class="story-ring"><div class="story-ring-inner">💃</div></div>
+    <span>Suraia</span>
+  </div>
+</div>
+
+<div class="post-box">
+  <div class="avatar">🔥</div>
+  <div class="post-box-main">
+    <textarea id="postText" rows="2" placeholder="O que está a acontecer, CEO?"></textarea>
+    <div class="post-actions">
+      <div class="post-actions-icons"><span>🖼️</span><span>🎥</span><span>😊</span><span>📍</span></div>
+      <button class="btn-pub" onclick="publicar()">Publicar</button>
+    </div>
+  </div>
+</div>
+
+<div class="feed" id="feed">
+  <div class="post">
+    <div class="post-head"><div class="avatar">🇲🇿</div><div><b>Afrotalk Oficial</b> <small>· agora · 🌍</small></div><span style="margin-left:auto">⋯</span></div>
+    <div class="post-text">Bem-vindo ao Afrotalk! A rede 100% Africana<br>Feita por nós, para nós! #Afrotal</div>
+    <div class="actions"><span onclick="curtir(this)">❤️ Curtir</span><span>💬 12 Comentar</span><span>↗️ Partilhar</span></div>
+  </div>
+  <div class="post">
+    <div class="post-head"><div class="avatar">👤</div><div><b>João Cossa</b> <small>· 5 min · 📍 Bilene</small></div><span style="margin-left:auto">⋯</span></div>
+    <div class="post-text">Alguém em Bilene hoje? Vamos fazer um churrasco! 🍖🔥</div>
+    <div class="actions"><span onclick="curtir(this)">❤️ Curtir</span><span>💬 3 Comentar</span><span>↗️ Partilhar</span></div>
+  </div>
+</div>
+
+<div class="bottom-nav">
+  <span class="active">🏠</span><span>🔍</span><span>➕</span><span>💬</span><span>👤</span>
+</div>
+
+<script>
+function toggleSearch(){ let s=document.getElementById('searchBox'); s.style.display=s.style.display=='block'?'none':'block'; }
+function publicar(){
+  let txt=document.getElementById('postText').value.trim();
+  if(!txt) return;
+  let feed=document.getElementById('feed');
+  let html=`<div class="post"><div class="post-head"><div class="avatar">🔥</div><div><b>CEO</b> <small>· agora</small></div><span style="margin-left:auto">⋯</span></div><div class="post-text">${txt}</div><div class="actions"><span onclick="curtir(this)">❤️ Curtir</span><span>💬 Comentar</span><span>↗️ Partilhar</span></div></div>`;
+  feed.innerHTML=html+feed.innerHTML;
+  document.getElementById('postText').value='';
+}
+function curtir(el){ el.innerText=el.innerText.includes('❤️')?'💛 Curtiu':'❤️ Curtir'; el.style.color=el.innerText.includes('Curtiu')?'#f5c518':''; }
+function verStory(nome,texto){
+  let v=document.createElement('div');
+  v.style.cssText='position:fixed;top:0;left:0;right:0;bottom:0;background:#000;z-index:9999;display:flex;flex-direction:column;padding:12px;animation:fadeIn .2s';
+  v.innerHTML=`<div style="display:flex;gap:4px"><div style="flex:1;height:3px;background:#f5c518;border-radius:10px"></div><div style="flex:1;height:3px;background:#333;border-radius:10px"></div><div style="flex:1;height:3px;background:#333;border-radius:10px"></div></div><div style="display:flex;align-items:center;gap:10px;margin-top:12px"><div style="width:36px;height:36px;border-radius:50%;background:#222;border:2px solid #f5c518;display:flex;align-items:center;justify-content:center">🔥</div><b>${nome}</b><small style="color:#888"> agora</small><span style="margin-left:auto;font-size:22px;cursor:pointer" onclick="this.closest('div').parentElement.parentElement.remove()">✕</span></div><div style="flex:1;display:flex;align-items:center;justify-content:center;font-size:26px;text-align:center;padding:20px;line-height:1.3">${texto}</div><div style="display:flex;gap:10px;align-items:center"><input placeholder="Responder a ${nome}..." style="flex:1;background:#1a1a1a;border:1px solid #333;border-radius:20px;padding:12px 16px;color:#fff;outline:none"><span style="font-size:22px">❤️</span><span style="font-size:22px">✈️</span></div>`;
+  v.addEventListener('click',e=>{ if(e.target===v) v.remove(); });
+  document.body.appendChild(v);
+  setTimeout(()=>{ if(v.parentNode) v.remove(); },6000);
+}
+function addStory(){
+  let t=prompt("O que vai no teu Story?");
+  if(!t) return;
+  let bar=document.getElementById('stories');
+  let d=document.createElement('div');
+  d.className='story';
+  d.onclick=()=>verStory('Você',t);
+  d.innerHTML=`<div class="story-ring"><div class="story-ring-inner">🔥</div></div><span>Você</span>`;
+  bar.appendChild(d);
+}
+</script>
+</body>
+</html>
