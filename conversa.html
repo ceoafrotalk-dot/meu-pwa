@@ -1,28 +1,75 @@
 <!DOCTYPE html>
 <html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Conversa</title>
 <style>
-body{margin:0;background:#000;color:#fff;font-family:sans-serif;height:100vh;display:flex;flex-direction:column}
-header{background:#111;padding:10px;display:flex;align-items:center;gap:10px}
-#msgs{flex:1;overflow:auto;padding:15px;display:flex;flex-direction:column;gap:8px;padding-bottom:80px}
-.m{max-width:75%;padding:10px 12px;border-radius:18px;font-size:14px}
-.me{background:#ffcc00;color:#000;align-self:flex-end}
-.other{background:#222;align-self:flex-start}
-.bar{position:fixed;bottom:0;left:0;right:0;background:#111;padding:10px;display:flex;gap:8px;border-top:1px solid #222}
-.bar input{flex:1;background:#222;border:0;color:#fff;padding:12px 15px;border-radius:25px;outline:none}
-.bar button{background:#ffcc00;border:0;width:42px;height:42px;border-radius:50%}
+*{box-sizing:border-box}body{margin:0;background:#000;color:#fff;font-family:sans-serif;height:100vh;display:flex;flex-direction:column}
+header{background:#111;padding:10px 12px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #222}
+.ava{width:38px;height:38px;border-radius:50%;background:#ffcc00;color:#000;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:16px}
+.nome{font-weight:bold;font-size:14px}.visto{font-size:11px;color:#0f0}
+#msgs{flex:1;overflow:auto;padding:15px;display:flex;flex-direction:column;gap:10px;padding-bottom:85px}
+.m{max-width:78%;padding:10px 12px;border-radius:18px;font-size:14px;position:relative;word-break:break-word}
+.me{background:#ffcc00;color:#000;align-self:flex-end;border-bottom-right-radius:4px}
+.other{background:#232323;align-self:flex-start;border-bottom-left-radius:4px}
+.m img{max-width:100%;border-radius:12px;display:block}
+.time{font-size:9px;opacity:0.6;margin-top:4px;text-align:right}
+.bar{position:fixed;bottom:0;left:0;right:0;background:#111;padding:8px 10px;display:flex;gap:6px;align-items:center;border-top:1px solid #222}
+.icon{width:38px;height:38px;border-radius:50%;background:#222;border:0;color:#fff;font-size:18px;display:flex;align-items:center;justify-content:center}
+.bar input{flex:1;background:#222;border:0;color:#fff;padding:11px 14px;border-radius:22px;outline:none}
+.send{background:#ffcc00;border:0;width:38px;height:38px;border-radius:50%;font-size:16px}
 </style></head>
 <body>
-<header><span onclick="history.back()">←</span><b id="nome">Chat</b><span style="color:#0f0;font-size:11px;margin-left:10px">online</span></header>
+<header>
+<span onclick="location.href='chat.html'" style="font-size:22px">←</span>
+<div class="ava" id="ava">J</div>
+<div style="flex:1"><div class="nome" id="nome">João Cossa</div><div class="visto" id="visto">online • visto por último hoje às 19:10</div></div>
+<span>📞</span><span style="margin-left:8px">📹</span>
+</header>
 <div id="msgs"></div>
-<div class="bar"><input id="inp" placeholder="Mensagem..."><button onclick="send()">➤</button></div>
+<div class="bar">
+<button class="icon" onclick="document.getElementById('file').click()">📎</button>
+<input type="file" id="file" accept="image/*" hidden>
+<button class="icon" id="micBtn">🎤</button>
+<input id="inp" placeholder="Mensagem...">
+<button class="send" onclick="sendTxt()">➤</button>
+</div>
 <script>
-let N=localStorage.getItem('chat_atual')||'Maria Bilene';
+let N=localStorage.getItem('chat_atual')||'João Cossa';
 document.getElementById('nome').innerText=N;
+document.getElementById('ava').innerText=N[0].toUpperCase();
 let K='chat_'+N;
-let M=JSON.parse(localStorage.getItem(K)||'null')||[{eu:0,t:"Bro, tudo bem em Bilene?"},{eu:0,t:"Tudo man! A lançar AfroTalk 😎"}];
-function R(){document.getElementById('msgs').innerHTML=M.map(x=>`<div class="m ${x.eu?'me':'other'}">${x.t}</div>`).join('');let d=document.getElementById('msgs');d.scrollTop=d.scrollHeight}
-function send(){let i=document.getElementById('inp');let t=i.value.trim();if(!t)return;M.push({eu:1,t:t});localStorage.setItem(K,JSON.stringify(M));i.value='';R();setTimeout(()=>{M.push({eu:0,t:"Recebido 🔥"});localStorage.setItem(K,JSON.stringify(M));R()},600)}
+let M=JSON.parse(localStorage.getItem(K)||'null')||[{type:'text',eu:0,t:"Bro, tudo bem em Bilene?"},{type:'text',eu:0,t:"Tudo man! A lançar AfroTalk 😎"}];
+
+function R(){
+document.getElementById('msgs').innerHTML=M.map(x=>{
+ if(x.type=='img') return `<div class="m ${x.eu?'me':'other'}"><img src="${x.t}"><div class="time">19:10 ✓✓</div></div>`;
+ if(x.type=='audio') return `<div class="m ${x.eu?'me':'other'}"><audio controls src="${x.t}" style="width:180px"></audio><div class="time">19:10 ✓✓</div></div>`;
+ return `<div class="m ${x.eu?'me':'other'}">${x.t}<div class="time">19:10 ✓✓</div></div>`;
+}).join('');
+let d=document.getElementById('msgs');d.scrollTop=d.scrollHeight;
+localStorage.setItem(K,JSON.stringify(M));
+}
+function sendTxt(){let i=document.getElementById('inp');let t=i.value.trim();if(!t)return;M.push({type:'text',eu:1,t:t});i.value='';R();reply()}
+function reply(){setTimeout(()=>{M.push({type:'text',eu:0,t:"Recebido no Afrotalk 🔥"});R();document.getElementById('visto').innerText="digitando...";setTimeout(()=>{document.getElementById('visto').innerText="online • visto por último agora"},1000)},700)}
+document.getElementById('file').onchange=e=>{
+let f=e.target.files[0];if(!f)return;
+let r=new FileReader();r.onload=()=>{M.push({type:'img',eu:1,t:r.result});R();reply()};r.readAsDataURL(f);
+}
+let rec, chunks=[];
+document.getElementById('micBtn').onclick=async()=>{
+if(!rec || rec.state=='inactive'){
+ try{
+  let s=await navigator.mediaDevices.getUserMedia({audio:true});
+  rec=new MediaRecorder(s);chunks=[];
+  rec.ondataavailable=e=>chunks.push(e.data);
+  rec.onstop=()=>{
+   let blob=new Blob(chunks,{type:'audio/webm'});
+   let url=URL.createObjectURL(blob);
+   M.push({type:'audio',eu:1,t:url});R();reply();
+  };
+  rec.start();document.getElementById('micBtn').innerText='⏹️';document.getElementById('micBtn').style.background='#f00';
+ }catch{alert('Permite microfone!')}
+}else{rec.stop();document.getElementById('micBtn').innerText='🎤';document.getElementById('micBtn').style.background='#222';}
+}
+document.getElementById('inp').addEventListener('keypress',e=>{if(e.key=='Enter')sendTxt()});
 R();
-document.getElementById('inp').addEventListener('keypress',e=>{if(e.key=='Enter')send()});
 </script></body></html>
- 
