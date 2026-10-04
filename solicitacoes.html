@@ -8,21 +8,46 @@
 *{margin:0;padding:0;box-sizing:border-box;font-family:sans-serif}
 body{background:#000;color:#fff;padding-bottom:70px}
 .header{padding:15px;font-size:20px;font-weight:bold;border-bottom:1px solid #222;position:sticky;top:0;background:#000;z-index:10}
-.user-card{display:flex;justify-content:space-between;align-items:center;padding:14px 15px;border-bottom:1px solid #1a1a1a}
-.user-card img{width:48px;height:48px;border-radius:50%;border:2px solid #ff4500}
-.btn{padding:8px 16px;border-radius:20px;border:none;font-weight:bold;cursor:pointer}
-.btn-solicitar{background:#fff;color:#000}
-.btn-enviada{background:#222;color:#aaa}
-.btn-aprovar{background:#fff;color:#000;margin-right:6px}
-.btn-recusar{background:#222;color:#fff}
-.tabs{position:fixed;bottom:0;width:100%;display:flex;justify-content:space-around;background:#000;border-top:1px solid #222;padding:12px 0;z-index:100}
+.pessoa{display:flex;gap:12px;padding:14px 15px;border-bottom:1px solid #1a1a1a;align-items:center}
+.pessoa img{width:48px;height:48px;border-radius:50%;border:2px solid #222}
+.btns{margin-left:auto;display:flex;gap:8px}
+.btn{padding:7px 14px;border-radius:20px;border:none;font-weight:bold;font-size:13px;cursor:pointer}
+.aceitar{background:#fff;color:#000}
+.rejeitar{background:#1a1a1a;color:#fff}
+.tabs{position:fixed;bottom:0;width:100%;display:flex;justify-content:space-around;background:#000;border-top:1px solid #222;padding:12px 0}
 .tabs button{background:none;border:none;font-size:22px;opacity:0.5}
 .tabs button.active{opacity:1}
 </style>
 </head>
 <body>
 <div class="header">Solicitações 👥</div>
-<div id="lista"></div>
+
+<div class="pessoa">
+  <img src="https://i.pravatar.cc/100?img=2">
+  <div><b>João Cossa</b><br><small style="color:#888">Bilene • 2 amigos em comum</small></div>
+  <div class="btns">
+    <button class="btn aceitar" onclick="this.innerText='✓ Aceite'">Aceitar</button>
+    <button class="btn rejeitar" onclick="this.parentElement.parentElement.remove()">X</button>
+  </div>
+</div>
+
+<div class="pessoa">
+  <img src="https://i.pravatar.cc/100?img=1">
+  <div><b>Ana Massingue</b><br><small style="color:#888">Chissano • mora perto</small></div>
+  <div class="btns">
+    <button class="btn aceitar" onclick="this.innerText='✓ Aceite'">Aceitar</button>
+    <button class="btn rejeitar" onclick="this.parentElement.parentElement.remove()">X</button>
+  </div>
+</div>
+
+<div class="pessoa">
+  <img src="https://i.pravatar.cc/100?img=8">
+  <div><b>Carlos Mabjaia</b><br><small style="color:#888">Maputo • 5 amigos em comum</small></div>
+  <div class="btns">
+    <button class="btn aceitar" onclick="this.innerText='✓ Aceite'">Aceitar</button>
+    <button class="btn rejeitar" onclick="this.parentElement.parentElement.remove()">X</button>
+  </div>
+</div>
 
 <nav class="tabs">
   <button onclick="location.href='home.html'">🏠</button>
@@ -31,46 +56,5 @@ body{background:#000;color:#fff;padding-bottom:70px}
   <button onclick="location.href='notificacoes.html'">🔔</button>
   <button onclick="location.href='definicoes.html'">⚙️</button>
 </nav>
-
-<script>
-let users = [
-  {id:1, nome:"Ana Massingue", cidade:"Bilene", foto:"https://i.pravatar.cc/100?img=1", estado:"novo"},
-  {id:2, nome:"João Cossa", cidade:"Chissano", foto:"https://i.pravatar.cc/100?img=2", estado:"recebida"},
-  {id:3, nome:"Nelio Mabjaia", cidade:"Macia", foto:"https://i.pravatar.cc/100?img=3", estado:"novo"},
-]
-
-function render(){
-  document.getElementById('lista').innerHTML = users.map(u => `
-    <div class="user-card">
-      <div style="display:flex;gap:12px;align-items:center">
-        <img src="${u.foto}">
-        <div><b>${u.nome}</b><br><small style="color:#888">${u.cidade}</small></div>
-      </div>
-      <div>
-        ${u.estado=='novo' ? `<button class="btn btn-solicitar" onclick="solicitar(${u.id})">Solicitar</button>` : ''}
-        ${u.estado=='enviada' ? `<button class="btn btn-enviada">Enviada ✓</button>` : ''}
-        ${u.estado=='recebida' ? `
-          <button class="btn btn-aprovar" onclick="aprovar(${u.id})">Aprovar</button>
-          <button class="btn btn-recusar" onclick="recusar(${u.id})">Recusar</button>` : ''}
-      </div>
-    </div>
-  `).join('')
-}
-
-function solicitar(id){
-  users.find(u=>u.id==id).estado='enviada'
-  render()
-}
-function aprovar(id){
-  alert('Agora vocês são amigos no AfroTalk! 🔥')
-  users = users.filter(u=>u.id!=id)
-  render()
-}
-function recusar(id){
-  users = users.filter(u=>u.id!=id)
-  render()
-}
-render()
-</script>
 </body>
 </html>
