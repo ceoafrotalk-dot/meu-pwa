@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AfroTalk - Definições</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:sans-serif}
+body{background:#000;color:#fff;padding-bottom:70px}
+.header{padding:15px;font-size:20px;font-weight:bold;border-bottom:1px solid #222;position:sticky;top:0;background:#000}
+.profile{padding:24px;text-align:center;border-bottom:1px solid #1a1a1a}
+.profile img{width:86px;height:86px;border-radius:50%;border:3px solid #ff4500}
+.opt{padding:16px 15px;border-bottom:1px solid #1a1a1a;display:flex;justify-content:space-between;align-items:center;cursor:pointer}
+.opt:active{background:#111}
+.tabs{position:fixed;bottom:0;width:100%;display:flex;justify-content:space-around;background:#000;border-top:1px solid #222;padding:12px 0}
+.tabs button{background:none;border:none;font-size:22px;opacity:0.5}
+.tabs button.active{opacity:1}
+.logout{margin:24px auto;display:block;background:#1a1a1a;color:#ff4444;border:1px solid #2a1a1a;width:90%;padding:14px;border-radius:12px;font-weight:bold;font-size:15px}
+</style>
+</head>
+<body>
+<div class="header">Definições ⚙️</div>
+<div class="profile">
+  <img src="https://i.pravatar.cc/100?img=3">
+  <h3 style="margin-top:12px">Arlindo Matavel</h3>
+  <small style="color:#888">Chissano • CEO AfroTalk</small>
+  <div style="margin-top:10px;color:#ff4500;font-size:13px">● Premium Ativo</div>
+</div>
+<div class="opt"><span>👤 Editar perfil</span><span>›</span></div>
+<div class="opt"><span>🔒 Privacidade</span><span>›</span></div>
+<div class="opt"><span>🌙 Modo escuro</span><span style="color:#888">Ativo</span></div>
+<div class="opt"><span>🔔 Notificações</span><span>›</span></div>
+<div class="opt"><span>ℹ️ Sobre AfroTalk v1.0</span><span>›</span></div>
+<button class="logout" onclick="location.href='index.html'">Sair da conta</button>
+<nav class="tabs">
+  <button onclick="location.href='home.html'">🏠</button>
+  <button onclick="location.href='solicitacoes.html'">👥</button>
+  <button onclick="location.href='chat.html'">💬</button>
+  <button onclick="location.href='notificacoes.html'">🔔</button>
+  <button class="active">⚙️</button>
+</nav>
+</body>
+</html>
