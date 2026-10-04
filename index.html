@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Afrotalk - Meu PWA</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#000000">
+<style>
+body{margin:0;font-family:sans-serif;background:#000;color:#fff;display:flex;align-items:center;justify-content:center;height:100vh;flex-direction:column}
+h1{font-size:32px}
+p{opacity:0.7}
+button{padding:15px 30px;border-radius:30px;border:0;background:#fff;color:#000;font-weight:bold;margin-top:20px;font-size:16px}
+</style>
+</head>
+<body>
+<h1>Afrotalk PWA 🔥</h1>
+<p>CEO ceoafrotalk-dot no ar!</p>
+<button onclick="alert('Tá funcionando CEO!')">Testar PWA</button>
+<script>
+if('serviceWorker' in navigator){
+ navigator.serviceWorker.register('sw.js')
+}
+</script>
+</body>
+</html>
