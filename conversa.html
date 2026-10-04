@@ -5,68 +5,50 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Conversa</title>
 <style>
-body{margin:0;background:#000;color:#fff;font-family:sans-serif;display:flex;flex-direction:column;height:100vh}
-header{background:#111;padding:10px 15px;display:flex;align-items:center;gap:12px;position:sticky;top:0}
-.avatar{width:36px;height:36px;background:#333;border-radius:50%;display:flex;align-items:center;justify-content:center}
-.nome{font-weight:bold}
-.online{color:#0f0;font-size:11px}
-.msgs{flex:1;overflow-y:auto;padding:15px;display:flex;flex-direction:column;gap:10px;background:#000}
-.balao{max-width:75%;padding:10px 12px;border-radius:18px;font-size:14px;line-height:1.3}
+body{margin:0;background:#000;color:#fff;font-family:sans-serif;display:flex;flex-direction:column;height:100vh;overflow:hidden}
+header{background:#111;padding:10px 15px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #222}
+.foto{width:36px;height:36px;background:#222;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.nome{font-weight:bold;font-size:14px}
+.on{color:#0f0;font-size:11px}
+.msgs{flex:1;overflow-y:auto;padding:15px;display:flex;flex-direction:column;gap:8px}
+.b{max-width:75%;padding:10px 12px;border-radius:18px;font-size:14px}
 .eu{background:#ffcc00;color:#000;align-self:flex-end;border-bottom-right-radius:4px}
-.outro{background:#222;color:#fff;align-self:flex-start;border-bottom-left-radius:4px}
-.bar{padding:10px;background:#111;display:flex;gap:10px;align-items:center}
+.outro{background:#222;align-self:flex-start;border-bottom-left-radius:4px}
+.bar{padding:10px;background:#111;display:flex;gap:8px;align-items:center;border-top:1px solid #222}
 .bar input{flex:1;background:#222;border:none;color:#fff;padding:12px 15px;border-radius:25px;outline:none}
-.send{background:#ffcc00;border:none;width:42px;height:42px;border-radius:50%;font-size:18px}
+.bar button{background:#ffcc00;border:none;width:42px;height:42px;border-radius:50%}
 </style>
 </head>
 <body>
 <header>
-<span style="font-size:22px" onclick="history.back()">←</span>
-<div class="avatar" id="ava">👤</div>
-<div style="flex:1"><div class="nome" id="nome">Chat</div><div class="online">online • visto por último hoje</div></div>
+<span onclick="location.href='chat.html'" style="font-size:20px">←</span>
+<div class="foto">👤</div>
+<div style="flex:1"><div class="nome" id="n">Chat</div><div class="on">online • visto por último hoje</div></div>
 <span>📞</span>
 </header>
-
 <div class="msgs" id="msgs"></div>
-
 <div class="bar">
-<input id="input" placeholder="Mensagem...">
-<button class="send" onclick="enviar()">➤</button>
+<input id="inp" placeholder="Mensagem...">
+<button onclick="enviar()">➤</button>
 </div>
-
 <script>
-let nomeAtual = localStorage.getItem('chat_atual')||'João Cossa';
-document.getElementById('nome').innerText = nomeAtual;
-
-let chave = 'chat_'+nomeAtual;
-let mensagens = JSON.parse(localStorage.getItem(chave)||'null') || [
-  {eu:false,texto:"Bro, tudo bem em Bilene?"},
-  {eu:false,texto:"Tudo man! A lançar AfroTalk 😎"},
+let nome = localStorage.getItem('chat_atual')||'Maria Bilene';
+document.getElementById('n').innerText=nome;
+let chave='chat_'+nome;
+let msgs = JSON.parse(localStorage.getItem(chave)||'null') || [
+ {eu:false,texto:"Bro, tudo bem em Bilene?"},
+ {eu:false,texto:"Tudo man! A lançar AfroTalk 😎"}
 ];
-
 function render(){
-  document.getElementById('msgs').innerHTML = mensagens.map(m=>`
-    <div class="balao ${m.eu?'eu':'outro'}">${m.texto}</div>
-  `).join('');
-  document.getElementById('msgs').scrollTop = 99999;
+ document.getElementById('msgs').innerHTML=msgs.map(m=>`<div class="b ${m.eu?'eu':'outro'}">${m.texto}</div>`).join('');
+ let d=document.getElementById('msgs'); d.scrollTop=d.scrollHeight;
 }
-
 function enviar(){
-  let t = document.getElementById('input').value.trim();
-  if(!t) return;
-  mensagens.push({eu:true,texto:t});
-  localStorage.setItem(chave,JSON.stringify(mensagens));
-  document.getElementById('input').value='';
-  render();
-  setTimeout(()=>{ // resposta fake
-    mensagens.push({eu:false,texto:"🔥 Recebido no Afrotalk!"});
-    localStorage.setItem(chave,JSON.stringify(mensagens));
-    render();
-  },800);
+ let i=document.getElementById('inp'); let t=i.value.trim(); if(!t)return;
+ msgs.push({eu:true,texto:t}); localStorage.setItem(chave,JSON.stringify(msgs)); i.value=''; render();
+ setTimeout(()=>{ msgs.push({eu:false,texto:"Recebido no Afrotalk 🔥"}); localStorage.setItem(chave,JSON.stringify(msgs)); render(); },600);
 }
-
-document.getElementById('input').addEventListener('keypress',e=>{if(e.key=='Enter')enviar()});
-
+document.getElementById('inp').addEventListener('keypress',e=>{if(e.key=='Enter')enviar()});
 render();
 </script>
 </body>
