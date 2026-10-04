@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AfroTalk - Notificações</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:sans-serif}
+body{background:#000;color:#fff;padding-bottom:70px}
+.header{padding:15px;font-size:20px;font-weight:bold;border-bottom:1px solid #222;position:sticky;top:0;background:#000;z-index:10}
+#notifs{display:flex;flex-direction:column}
+.notif{display:flex;gap:12px;padding:14px 15px;border-bottom:1px solid #1a1a1a;align-items:center}
+.notif img{width:44px;height:44px;border-radius:50%;border:2px solid #222}
+.notif small{color:#888}
+.notif.sistema{background:#111}
+.badge{width:8px;height:8px;background:#ff4500;border-radius:50%;margin-left:auto}
+.tabs{position:fixed;bottom:0;width:100%;display:flex;justify-content:space-around;background:#000;border-top:1px solid #222;padding:12px 0}
+.tabs button{background:none;border:none;font-size:22px;opacity:0.5}
+.tabs button.active{opacity:1}
+</style>
+</head>
+<body>
+<div class="header">Notificações 🔔</div>
+
+<div id="notifs">
+  <div class="notif">
+    <img src="https://i.pravatar.cc/100?img=2">
+    <div><b>João Cossa</b> aceitou tua solicitação <br><small>agora • Bilene</small></div>
+    <div class="badge"></div>
+  </div>
+
+  <div class="notif sistema">
+    <span style="font-size:28px">🚀</span>
+    <div><b>AfroTalk</b> Nova função: Stories já disponível! <br><small>hoje 09:00 • Sistema</small></div>
+  </div>
+
+  <div class="notif">
+    <img src="https://i.pravatar.cc/100?img=1">
+    <div><b>Ana Massingue</b> curtiu tua foto na praia <br><small>ontem • Chissano</small></div>
+    <div class="badge"></div>
+  </div>
+
+  <div class="notif sistema">
+    <span style="font-size:28px">🔧</span>
+    <div><b>AfroTalk</b> Melhoramos o chat: áudio até 1min <br><small>ontem • Sistema</small></div>
+  </div>
+</div>
+
+<nav class="tabs">
+  <button onclick="location.href='home.html'">🏠</button>
+  <button onclick="location.href='solicitacoes.html'">👥</button>
+  <button onclick="location.href='chat.html'">💬</button>
+  <button class="active">🔔</button>
+  <button onclick="location.href='definicoes.html'">⚙️</button>
+</nav>
+
+<script>
+if('Notification' in window){
+  Notification.requestPermission()
+}
+// futuro: supabase.from('notificacoes').select().eq('para', meuId)
+</script>
+</body>
+</html>
