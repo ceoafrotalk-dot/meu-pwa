@@ -1,43 +1,91 @@
-<!DOCTYPE html>
-<html lang="pt">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AfroTalk - Definições</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:sans-serif}
-body{background:#000;color:#fff;padding-bottom:70px}
-.header{padding:15px;font-size:20px;font-weight:bold;border-bottom:1px solid #222;position:sticky;top:0;background:#000}
-.profile{padding:24px;text-align:center;border-bottom:1px solid #1a1a1a}
-.profile img{width:86px;height:86px;border-radius:50%;border:3px solid #ff4500}
-.opt{padding:16px 15px;border-bottom:1px solid #1a1a1a;display:flex;justify-content:space-between;align-items:center;cursor:pointer}
-.opt:active{background:#111}
-.tabs{position:fixed;bottom:0;width:100%;display:flex;justify-content:space-around;background:#000;border-top:1px solid #222;padding:12px 0}
-.tabs button{background:none;border:none;font-size:22px;opacity:0.5}
-.tabs button.active{opacity:1}
-.logout{margin:24px auto;display:block;background:#1a1a1a;color:#ff4444;border:1px solid #2a1a1a;width:90%;padding:14px;border-radius:12px;font-weight:bold;font-size:15px}
-</style>
-</head>
-<body>
-<div class="header">Definições ⚙️</div>
-<div class="profile">
-  <img src="https://i.pravatar.cc/100?img=3">
-  <h3 style="margin-top:12px">Arlindo Matavel</h3>
-  <small style="color:#888">Chissano • CEO AfroTalk</small>
-  <div style="margin-top:10px;color:#ff4500;font-size:13px">● Premium Ativo</div>
-</div>
-<div class="opt"><span>👤 Editar perfil</span><span>›</span></div>
-<div class="opt"><span>🔒 Privacidade</span><span>›</span></div>
-<div class="opt"><span>🌙 Modo escuro</span><span style="color:#888">Ativo</span></div>
-<div class="opt"><span>🔔 Notificações</span><span>›</span></div>
-<div class="opt"><span>ℹ️ Sobre AfroTalk v1.0</span><span>›</span></div>
-<button class="logout" onclick="location.href='index.html'">Sair da conta</button>
-<nav class="tabs">
-  <button onclick="location.href='home.html'">🏠</button>
-  <button onclick="location.href='solicitacoes.html'">👥</button>
-  <button onclick="location.href='chat.html'">💬</button>
-  <button onclick="location.href='notificacoes.html'">🔔</button>
-  <button class="active">⚙️</button>
-</nav>
-</body>
-</html>
+import { useState } from "react";
+
+export default function Definicoes() {
+  const [user, setUser] = useState({ nome: "Samuel CEO", bio: "Criador do AfroTalk 🔥", amigos: 125, foto: "S" });
+  const [editando, setEditando] = useState(false);
+  const [form, setForm] = useState({ nome: user.nome, bio: user.bio });
+  const [posts] = useState([
+    { id: 1, texto: "Meu primeiro post!" },
+    { id: 2, texto: "AfroTalk é o futuro" },
+  ]);
+
+  const salvar = () => {
+    setUser({...user, nome: form.nome, bio: form.bio });
+    setEditando(false);
+  };
+
+  return (
+    <div style={{ maxWidth: 500, margin: "0 auto", fontFamily: "Arial", background: "#fff", minHeight: "100vh" }}>
+      <h2 style={{ padding: 15, borderBottom: "1px solid #eee", margin: 0 }}>⚙️ Definições</h2>
+
+      {/* ENTRADA PRA O PERFIL */}
+      <div onClick={() => setEditando(false)} style={{ padding: 15, display: "flex", gap: 15, alignItems: "center", borderBottom: "1px solid #eee", cursor: "pointer" }}>
+        <div style={{ width: 70, height: 70, borderRadius: 50, background: "#FF6A00", color: "white", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 28, fontWeight: "bold" }}>{user.foto}</div>
+        <div style={{ flex: 1 }}>
+          <b style={{ fontSize: 18 }}>{user.nome}</b>
+          <div style={{ fontSize: 13, color: "gray", marginTop: 2 }}>{user.bio}</div>
+          <div style={{ fontSize: 13, marginTop: 6 }}>👥 {user.amigos} amigos • 📝 {posts.length} postes</div>
+        </div>
+        <span>›</span>
+      </div>
+
+      {/* DENTRO DO PERFIL */}
+      <div style={{ padding: 15, borderBottom: "1px solid #eee" }}>
+        <div style={{ textAlign: "center", padding: "10px 0" }}>
+          <div style={{ width: 90, height: 90, borderRadius: 50, background: "#FF6A00", color: "white", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 36, fontWeight: "bold", margin: "0 auto" }}>{user.foto}</div>
+          <h3 style={{ margin: "10px 0 2px" }}>{user.nome}</h3>
+          <p style={{ margin: 0, color: "gray", fontSize: 14 }}>Biografia: {user.bio}</p>
+
+          <button onClick={() => setEditando(true)} style={{ marginTop: 12, padding: "8px 20px", borderRadius: 8, border: "1px solid #ddd", background: "white", fontWeight: "bold", cursor: "pointer" }}>✏️ Editar perfil</button>
+
+          <div style={{ display: "flex", justifyContent: "center", gap: 30, marginTop: 15 }}>
+            <div><b>{user.amigos}</b><div style={{ fontSize: 12 }}>Amigos</div></div>
+            <div><b>{posts.length}</b><div style={{ fontSize: 12 }}>Postes</div></div>
+          </div>
+        </div>
+
+        {/* POSTES EM BAIXO */}
+        <h4 style={{ marginTop: 20 }}>📝 Seus postes</h4>
+        {posts.map(p => (
+          <div key={p.id} style={{ width: "100%", height: 200, background: "#fafafa", border: "1px solid #eee", borderRadius: 12, display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 10 }}>{p.texto}</div>
+        ))}
+      </div>
+
+      {/* MODAL EDITAR PERFIL */}
+      {editando && (
+        <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.6)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 50 }}>
+          <div style={{ background: "white", width: 360, padding: 20, borderRadius: 12 }}>
+            <h3>Editar perfil</h3>
+            <input value={form.nome} onChange={e => setForm({...form, nome: e.target.value })} placeholder="Nome" style={input} />
+            <textarea value={form.bio} onChange={e => setForm({...form, bio: e.target.value })} placeholder="Biografia" style={{...input, height: 80 }} />
+            <button onClick={salvar} style={btn}>Salvar</button>
+            <button onClick={() => setEditando(false)} style={{...btn, background: "#eee", color: "black", marginTop: 6 }}>Cancelar</button>
+          </div>
+        </div>
+      )}
+
+      {/* OUTRAS OPÇÕES */}
+      <div style={{ padding: 10 }}>
+        <div style={item} onClick={() => { navigator.share? navigator.share({ title: "AfroTalk", text: "Baixa AfroTalk!" }) : alert("Link copiado: afrotalk.com"); }}>
+          <span>👥 Convidar amigos</span><span>›</span>
+        </div>
+        <div style={item} onClick={() => alert("Apoio AfroTalk: apoio@afrotalk.com | WhatsApp: +258...")}>
+          <span>💬 Apoio AfroTalk</span><span>›</span>
+        </div>
+        <div style={item} onClick={() => alert("Política de Privacidade: Seus dados estão seguros. Não vendemos informações. AfroTalk protege tudo!")}>
+          <span>🔒 Política de privacidade</span><span>›</span>
+        </div>
+        <div style={item} onClick={() => alert("Sobre AfroTalk: Rede social africana criada por Samuel CEO. Feita para África! 🔥 Versão 1.0")}>
+          <span>ℹ️ Sobre AfroTalk</span><span>›</span>
+        </div>
+        <div style={{...item, color: "red" }} onClick={() => { localStorage.clear(); location.reload(); }}>
+          <span>🚪 Sair</span><span>›</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+const input = { width: "100%", padding: 10, borderRadius: 8, border: "1px solid #ccc", marginTop: 8 };
+const btn = { width: "100%", padding: 10, background: "#FF6A00", color: "white", border: "none", borderRadius: 8, fontWeight: "bold", marginTop: 10, cursor: "pointer" };
+const item = { display: "flex", justifyContent: "space-between", padding: "16px 12px", borderBottom: "1px solid #f0f0f0", cursor: "pointer" };
