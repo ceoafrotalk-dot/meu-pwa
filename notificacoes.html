@@ -1,64 +1,60 @@
-<!DOCTYPE html>
-<html lang="pt">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AfroTalk - Notificações</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:sans-serif}
-body{background:#000;color:#fff;padding-bottom:70px}
-.header{padding:15px;font-size:20px;font-weight:bold;border-bottom:1px solid #222;position:sticky;top:0;background:#000;z-index:10}
-#notifs{display:flex;flex-direction:column}
-.notif{display:flex;gap:12px;padding:14px 15px;border-bottom:1px solid #1a1a1a;align-items:center}
-.notif img{width:44px;height:44px;border-radius:50%;border:2px solid #222}
-.notif small{color:#888}
-.notif.sistema{background:#111}
-.badge{width:8px;height:8px;background:#ff4500;border-radius:50%;margin-left:auto}
-.tabs{position:fixed;bottom:0;width:100%;display:flex;justify-content:space-around;background:#000;border-top:1px solid #222;padding:12px 0}
-.tabs button{background:none;border:none;font-size:22px;opacity:0.5}
-.tabs button.active{opacity:1}
-</style>
-</head>
-<body>
-<div class="header">Notificações 🔔</div>
+import { useState, useEffect } from "react";
 
-<div id="notifs">
-  <div class="notif">
-    <img src="https://i.pravatar.cc/100?img=2">
-    <div><b>João Cossa</b> aceitou tua solicitação <br><small>agora • Bilene</small></div>
-    <div class="badge"></div>
-  </div>
+export default function Notificacoes() {
+  const [notifs, setNotifs] = useState([
+    { id: 1, tipo: "curtida", texto: "Ana curtiu seu post ❤️", hora: "agora", lida: false },
+    { id: 2, tipo: "aceitou", texto: "João aceitou sua solicitação ✅", hora: "5min", lida: false },
+    { id: 3, tipo: "sistema", texto: "Nova função: Stories de 24h liberada! ⚙️", hora: "1h", lida: false },
+    { id: 4, tipo: "mensagem", texto: "Tens nova mensagem de Mia 💬", hora: "2h", lida: true },
+  ]);
 
-  <div class="notif sistema">
-    <span style="font-size:28px">🚀</span>
-    <div><b>AfroTalk</b> Nova função: Stories já disponível! <br><small>hoje 09:00 • Sistema</small></div>
-  </div>
+  // SIMULA NOTIFICAÇÃO REAL QUANDO ALGUÉM CURTE
+  useEffect(() => {
+    // Você pode chamar essa função quando curtir post
+    window.novaNotificacao = (texto, tipo="curtida") => {
+      setNotifs(n => [{ id: Date.now(), tipo, texto, hora: "agora", lida: false }, ...n]);
+    };
+  }, []);
 
-  <div class="notif">
-    <img src="https://i.pravatar.cc/100?img=1">
-    <div><b>Ana Massingue</b> curtiu tua foto na praia <br><small>ontem • Chissano</small></div>
-    <div class="badge"></div>
-  </div>
+  const marcarLida = (id) => {
+    setNotifs(notifs.map(n => n.id===id? {...n, lida:true} : n));
+  };
 
-  <div class="notif sistema">
-    <span style="font-size:28px">🔧</span>
-    <div><b>AfroTalk</b> Melhoramos o chat: áudio até 1min <br><small>ontem • Sistema</small></div>
-  </div>
-</div>
+  const icon = (tipo) => {
+    if(tipo==="curtida") return "❤️";
+    if(tipo==="aceitou") return "✅";
+    if(tipo==="sistema") return "⚙️";
+    if(tipo==="mensagem") return "💬";
+    return "🔔";
+  };
 
-<nav class="tabs">
-  <button onclick="location.href='home.html'">🏠</button>
-  <button onclick="location.href='solicitacoes.html'">👥</button>
-  <button onclick="location.href='chat.html'">💬</button>
-  <button class="active">🔔</button>
-  <button onclick="location.href='definicoes.html'">⚙️</button>
-</nav>
+  const naoLidas = notifs.filter(n=>!n.lida).length;
 
-<script>
-if('Notification' in window){
-  Notification.requestPermission()
+  return (
+    <div style={{ maxWidth: 500, margin: "0 auto", fontFamily: "Arial" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: 15, borderBottom: "1px solid #eee", position: "sticky", top: 0, background: "white" }}>
+        <h2 style={{ margin: 0 }}>🔔 Notificações {naoLidas>0 && <span style={{ background: "red", color: "white", borderRadius: 20, padding: "2px 8px", fontSize: 12 }}>{naoLidas}</span>}</h2>
+        <button onClick={()=>setNotifs(notifs.map(n=>({...n,lida:true})))} style={{ border: "none", background: "#eee", padding: "6px 10px", borderRadius: 6 }}>Marcar tudo como lida</button>
+      </div>
+
+      {notifs.map(n => (
+        <div key={n.id} onClick={()=>marcarLida(n.id)} style={{ display: "flex", gap: 12, padding: 15, borderBottom: "1px solid #f5f5f5", background: n.lida? "white" : "#eef6ff", cursor: "pointer" }}>
+          <div style={{ width: 45, height: 45, borderRadius: 50, background: "#f0f0f0", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20 }}>{icon(n.tipo)}</div>
+          <div style={{ flex: 1 }}>
+            <div style={{ fontSize: 14, fontWeight: n.lida? 400 : 700 }}>{n.texto}</div>
+            <div style={{ fontSize: 11, color: "gray", marginTop: 4 }}>{n.hora} { !n.lida && "• Nova"}</div>
+          </div>
+          {!n.lida && <div style={{ width: 10, height: 10, background: "#1877F2", borderRadius: 50, marginTop: 10 }}></div>}
+        </div>
+      ))}
+
+      {notifs.length===0 && <p style={{ textAlign: "center", padding: 30, color: "gray" }}>Sem notificações</p>}
+    </div>
+  );
 }
-// futuro: supabase.from('notificacoes').select().eq('para', meuId)
-</script>
-</body>
-</html>
+
+// COMO USAR NO SEU APP PRINCIPAL:
+// Quando alguém curtir: window.novaNotificacao("Fulano curtiu seu post ❤️", "curtida")
+// Quando aceita solicitação: window.novaNotificacao("Fulano aceitou sua solicitação", "aceitou")
+// Quando tem mensagem: window.novaNotificacao("Tens nova mensagem de "+nome, "mensagem")
+// Função nova: window.novaNotificacao("Nova função de sistema liberada!", "sistema")
