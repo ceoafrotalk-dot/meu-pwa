@@ -1,95 +1,116 @@
+html
 <!DOCTYPE html>
-<html lang="pt">
+<html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Afrotalk</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="manifest" href="manifest.json">
+<title>AfroTalk</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
-body{background:#000;color:#fff;padding-bottom:80px}
-header{padding:14px 12px;display:flex;justify-content:space-between;border-bottom:1px solid #111;position:sticky;top:0;background:#000;z-index:10}
-header h1{color:#f5c518;font-size:18px;font-weight:900}
-.user{margin:8px;background:#111;border-radius:16px;padding:10px 12px;font-size:12px}.user b{color:#fff}
-.stories{display:flex;gap:14px;padding:12px;overflow-x:auto;border-bottom:1px solid #111}
-.st{min-width:60px;text-align:center}.ring{width:56px;height:56px;border-radius:50%;border:2.5px solid #ff2e2e;background:#1a1a1a;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:18px}
-.st span{font-size:10px;color:#aaa;margin-top:5px;display:block}
-.box{margin:10px 8px;background:#121212;border:1px solid #1e1e1e;border-radius:12px;padding:10px;display:flex;gap:8px}
-.box input{flex:1;background:#1e1e1e;border:none;border-radius:20px;padding:12px;color:#fff;outline:none}
-.box button{background:#f5c518;border:none;border-radius:20px;padding:10px 18px;font-weight:800;color:#000}
-.post{background:#121212;margin:8px;border:1px solid #1e1e1e;border-radius:12px;padding:12px}
-.post-head{display:flex;justify-content:space-between}.post-text{margin:8px 0;font-size:13.5px}
-.actions{display:flex;justify-content:space-around;border-top:1px solid #1e1e1e;margin-top:10px;padding-top:10px}
-.act{display:flex;gap:6px;cursor:pointer;font-size:13px;color:#aaa}.act.liked{color:#ff2e2e}
-.comments{margin-top:10px;display:none}.comments.show{display:block}
-.com{font-size:12px;margin:6px 0;background:#1a1a1a;padding:6px 10px;border-radius:12px}.com b{color:#f5c518}
-.comment-box{display:flex;gap:6px;margin-top:8px}.comment-box input{flex:1;background:#1e1e1e;border:none;border-radius:20px;padding:8px 12px;color:#fff;font-size:12px}
-.comment-box button{background:#f5c518;border:none;border-radius:20px;padding:6px 12px;font-size:12px;font-weight:700}
-.bottom{position:fixed;bottom:0;left:0;right:0;background:#0a0a0a;border-top:1px solid #222;display:flex;justify-content:space-around;padding:14px 0}
+*{margin:0;padding:0;box-sizing:border-box;font-family:sans-serif}
+header{display:flex;justify-content:space-between;padding:12px 15px;font-size:20px;border-bottom:1px solid #eee}
+.stories{display:flex;gap:12px;overflow-x:auto;padding:10px}
+.story{text-align:center}.story img{width:60px;height:60px;border-radius:50%;border:3px solid #ff3b30}
+.post{border-top:1px solid #eee}.post-head{display:flex;gap:8px;padding:10px;align-items:center}
+.post-head img{width:32px;height:32px;border-radius:50%}.post-img{width:100%}
+.actions{display:flex;justify-content:space-around;padding:10px}
+.tabs{position:fixed;bottom:0;width:100%;display:flex;justify-content:space-around;background:#fff;border-top:1px solid #eee;padding:12px 0;z-index:10}
+.tab-content{padding-bottom:80px;display:none}.tab-content.active{display:block}
+.user-card{display:flex;justify-content:space-between;align-items:center;padding:12px;border-bottom:1px solid #eee}
+.msg{max-width:70%;padding:10px 14px;border-radius:18px;margin:6px}.recebida{background:#eee;align-self:flex-start}.enviada{background:#000;color:#fff;align-self:flex-end}
+.msgs{height:60vh;overflow-y:auto;padding:15px;display:flex;flex-direction:column}
+.input-area{display:flex;gap:6px;padding:10px;border-top:1px solid #eee}.input-area input{flex:1;padding:10px;border-radius:20px;border:1px solid #ddd}
+.notif{display:flex;gap:12px;padding:14px;border-bottom:1px solid #eee}.grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px}
+.grid img{width:100%;aspect-ratio:1;object-fit:cover}
+input,button{outline:none}
+.login-box{max-width:360px;margin:40px auto;padding:20px}.login-box input{width:100%;padding:12px;margin:8px 0;border-radius:12px;border:1px solid #ccc}
+.login-box button{width:100%;padding:14px;background:#000;color:#fff;border-radius:12px}
 </style>
 </head>
-<body>
-<header><h1>Afrotalk</h1><span>...</span></header>
-<div class="user"><b>Arlindo Massingue</b></div>
-<div class="stories">
-<div class="st"><div class="ring" style="border-color:#444;border-style:dashed">+</div><span>Teu story</span></div>
-<div class="st"><div class="ring">J</div><span>João</span></div>
-<div class="st"><div class="ring">M</div><span>Maria</span></div>
-<div class="st"><div class="ring">A</div><span>Ana</span></div>
-<div class="st"><div class="ring">D</div><span>DJ</span></div>
-</div>
-<div class="box"><input id="t" placeholder="O que está acontecendo, CEO?"><button onclick="postar()">Publicar</button></div>
-<div id="feed">
-<div class="post">
-<div class="post-head"><b>João Cossa</b><small>· 5 min</small></div>
-<div class="post-text">Alguém em Bilene hoje? Vamos fazer um churrasco!</div>
-<div class="actions">
-<div class="act" onclick="like(this)"><span>❤️</span><span class="lc">12</span> Likes</div>
-<div class="act" onclick="toggleCom(this)"><span>💬</span><span class="cc">2</span> Comentar</div>
-<div class="act" onclick="partilhar(this)"><span>↗️</span> Partilhar</div>
-</div>
-<div class="comments">
-<div class="com"><b>Maria:</b> Eu vou!</div>
-<div class="com"><b>Ana:</b> Que horas?</div>
-<div class="comment-box"><input placeholder="Escreve..." onkeypress="if(event.key==='Enter')addCom(this)"><button onclick="addCom(this.previousElementSibling)">Enviar</button></div>
-</div>
-</div>
-<div class="post">
-<div class="post-head"><b>Afrotalk Oficial</b><small>· agora</small></div>
-<div class="post-text">Bem-vindo ao Afrotalk! A nova rede que conecta todos.</div>
-<div class="actions">
-<div class="act" onclick="like(this)"><span>❤️</span><span class="lc">45</span> Likes</div>
-<div class="act" onclick="toggleCom(this)"><span>💬</span><span class="cc">0</span> Comentar</div>
-<div class="act" onclick="partilhar(this)"><span>↗️</span> Partilhar</div>
-</div>
-<div class="comments"><div class="comment-box"><input placeholder="Escreve..." onkeypress="if(event.key==='Enter')addCom(this)"><button onclick="addCom(this.previousElementSibling)">Enviar</button></div></div>
-</div>
-</div>
-<div class="bottom"><span>🏠</span><span>👥</span><span>💬</span><span>🔔</span><span>⚙️</span></div>
+<body> 
+
+<!-- LOGIN -->
+<div id="login" class="tab-content active">
+  <div class="login-box">
+    <h1 style="text-align:center">AfroTalk</h1><br>
+    <input id="nome" placeholder="Nome completo">
+    <input id="contato" placeholder="Número ou Email">
+    <input id="nascimento" type="date">
+    <input id="cidade" placeholder="Cidade ex: Bilene">
+    <input id="foto" type="file">
+    <button onclick="entrar()">Entrar</button>
+  </div>
+</div> 
+
+<!-- HOME -->
+<div id="home" class="tab-content">
+  <header><b>AfroTalk</b><span>➕ 🔍</span></header>
+  <div class="stories"><div class="story"><img src="https://i.pravatar.cc/100?img=12"><p>Você</p></div><div class="story"><img src="https://i.pravatar.cc/100?img=2"><p>João</p></div><div class="story"><img src="https://i.pravatar.cc/100?img=1"><p>Ana</p></div></div>
+  <div class="post"><div class="post-head"><img src="https://i.pravatar.cc/100?img=2"><b>João Cossa</b></div><img class="post-img" src="https://picsum.photos/400/400?1"><div class="actions"><span onclick="this.innerText='❤️ '+(parseInt(this.innerText.split(' ')[1])+1)">❤️ 12</span><span>💬 Comentar</span><span>↗️ Partilhar</span></div></div>
+</div> 
+
+<!-- SOLICITAR -->
+<div id="solicitar" class="tab-content"><h2 style="padding:15px">Solicitar</h2><div class="user-card"><div style="display:flex;gap:10px"><img src="https://i.pravatar.cc/100?img=3" style="width:45px;height:45px;border-radius:50%"><div><b>Nelio Mabjaia</b><br><small>Macia</small></div></div><button style="padding:8px 14px;border-radius:20px;background:#000;color:#fff;border:none" onclick="this.innerText='Enviada ✓'">Solicitar</button></div><div class="user-card"><div style="display:flex;gap:10px"><img src="https://i.pravatar.cc/100?img=1" style="width:45px;height:45px;border-radius:50%"><div><b>Ana Massingue</b><br><small>Bilene</small></div></div><div><button style="padding:8px 14px;border-radius:20px;background:#000;color:#fff;border:none">Aprovar</button> <button style="padding:8px 14px;border-radius:20px;border:none">Recusar</button></div></div></div> 
+
+<!-- CHAT -->
+<div id="chat" class="tab-content"><div style="display:flex;gap:10px;padding:12px;border-bottom:1px solid #eee"><img src="https://i.pravatar.cc/100?img=2" style="width:40px;height:40px;border-radius:50%"><div><b>João Cossa</b><br><small style="color:#2ecc71">● online agora</small></div></div><div class="msgs"><div class="msg recebida">Bro, AfroTalk tá nice!</div><div class="msg enviada">Valeu man 🚀</div></div><div class="input-area"><input placeholder="Mensagem..."><button>➤</button></div></div> 
+
+<!-- NOTIF -->
+<div id="notif" class="tab-content"><h2 style="padding:15px">Notificações</h2><div class="notif"><img src="https://i.pravatar.cc/100?img=2" style="width:42px;height:42px;border-radius:50%"><div><b>João Cossa</b> aceitou tua solicitação<br><small>agora</small></div></div><div class="notif" style="background:#f9f9f9"><span style="font-size:28px">🚀</span><div><b>AfroTalk</b> Nova função: Stories!<br><small>hoje • Sistema</small></div></div></div> 
+
+<!-- DEFINICOES -->
+<div id="def" class="tab-content"><div style="text-align:center;padding:20px"><img src="https://i.pravatar.cc/150?img=12" style="width:90px;height:90px;border-radius:50%"><h2 id="perfilNome">Arlindo Massingue</h2><p>CEO AfroTalk 🚀 | Bilene</p><div style="display:flex;justify-content:space-around;margin:15px 0"><div><b>1.2k</b><br><small>seguidores</small></div><div><b>340</b><br><small>a seguir</small></div><div><b>28</b><br><small>postes</small></div></div></div><div class="grid"><img src="https://picsum.photos/200?1"><img src="https://picsum.photos/200?2"><img src="https://picsum.photos/200?3"><img src="https://picsum.photos/200?4"><img src="https://picsum.photos/200?5"><img src="https://picsum.photos/200?6"></div><div style="margin-top:20px"><div style="padding:16px;border-bottom:1px solid #eee">👥 Convidar amigos</div><div style="padding:16px;border-bottom:1px solid #eee">🔒 Política de privacidade</div><div style="padding:16px">ℹ️ Sobre AfroTalk v1.0</div></div></div> 
+
+<div class="tabs" id="bottomTabs" style="display:none">
+  <button onclick="show('home')">🏠</button>
+  <button onclick="show('solicitar')">👥</button>
+  <button onclick="show('chat')">💬</button>
+  <button onclick="show('notif')">🔔</button>
+  <button onclick="show('def')">⚙️</button>
+</div> 
+
 <script>
-function like(el){
-let c=el.querySelector('.lc');let n=parseInt(c.innerText);
-if(el.classList.contains('liked')){el.classList.remove('liked');c.innerText=n-1}
-else{el.classList.add('liked');c.innerText=n+1}
+function entrar(){
+  let nome=document.getElementById('nome').value
+  if(!nome) return alert('Preenche nome')
+  localStorage.setItem('afrotalk_user', nome)
+  document.getElementById('login').classList.remove('active')
+  document.getElementById('home').classList.add('active')
+  document.getElementById('bottomTabs').style.display='flex'
+  document.getElementById('perfilNome').innerText=nome
 }
-function toggleCom(el){el.closest('.post').querySelector('.comments').classList.toggle('show')}
-function addCom(inp){
-let t=inp.value.trim();if(!t)return;
-let coms=inp.closest('.comments');
-let d=document.createElement('div');d.className='com';d.innerHTML='<b>Tu:</b> '+t;
-coms.insertBefore(d,coms.querySelector('.comment-box'));inp.value='';
-let cc=inp.closest('.post').querySelector('.cc');cc.innerText=parseInt(cc.innerText)+1;
+function show(id){
+  document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'))
+  document.getElementById(id).classList.add('active')
 }
-function partilhar(el){
-let txt=el.closest('.post').querySelector('.post-text').innerText;
-if(navigator.share){navigator.share({title:'Afrotalk',text:txt,url:location.href})}
-else{navigator.clipboard.writeText(txt+' - Afrotalk '+location.href);alert('Link copiado! ✅')}
+if(localStorage.getItem('afrotalk_user')){
+  document.getElementById('login').classList.remove('active')
+  document.getElementById('home').classList.add('active')
+  document.getElementById('bottomTabs').style.display='flex'
 }
-function postar(){
-let v=document.getElementById('t').value.trim();if(!v)return;
-let f=document.getElementById('feed');let d=document.createElement('div');d.className='post';
-d.innerHTML=`<div class=post-head><b>Tu</b><small>· agora</small></div><div class=post-text>${v}</div><div class=actions><div class=act onclick="like(this)"><span>❤️</span><span class=lc>0</span> Likes</div><div class=act onclick="toggleCom(this)"><span>💬</span><span class=cc>0</span> Comentar</div><div class=act onclick="partilhar(this)"><span>↗️</span> Partilhar</div></div><div class=comments><div class=comment-box><input placeholder="Escreve..." onkeypress="if(event.key==='Enter')addCom(this)"><button onclick="addCom(this.previousElementSibling)">Enviar</button></div></div>`;
-f.prepend(d);document.getElementById('t').value='';
-}
+if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js')}
 </script>
 </body>
 </html>
+
+
+2️⃣ manifest.json
+json
+{
+  "name": "AfroTalk",
+  "short_name": "AfroTalk",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000",
+  "theme_color": "#000",
+  "icons": [{"src": "https://i.pravatar.cc/192","sizes": "192x192","type": "image/png"}]
+}
+
+
+3️⃣ sw.js
+js
+self.addEventListener('install', e=>{
+  e.waitUntil(caches.open('afro-v1').then(c=>c.addAll(['/', '/index.html'])))
+})
+self.addEventListener('fetch', e=>{
+  e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request)))
