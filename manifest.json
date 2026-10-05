@@ -1,15 +1,70 @@
+
+
+manifest.json
+json
 {
-  "name": "Afrotalk",
-  "short_name": "Afrotalk",
-  "start_url": "/",
-  "display": "standalone",
-  "background_color": "#000000",
-  "theme_color": "#000000",
-  "icons": [
-    {
-      "src": "https://cdn-icons-png.flaticon.com/512/4712/4712035.png",
-      "sizes": "512x512",
-      "type": "image/png"
-    }
-  ]
+  "name": "AfroTalk - A rede social Áfricana",
+  "short_name": "AfroTalk",
+  "description": "Stories, feed, chat com áudio, amizades",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/5968/5968953.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/5968/5968953.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
 }
+
+
+sw.js - Service Worker completo
+js
+const CACHE = 'afrotalk-v1.0'; 
+
+const FILES = [
+  '/',
+  '/index.html',
+  '/manifest.json'
+]; 
+
+self.addEventListener('install', (e) => {
+  console.log('AfroTalk instalando...');
+  e.waitUntil(
+    caches.open(CACHE).then(cache => cache.addAll(FILES))
+  );
+  self.skipWaiting();
+}); 
+
+self.addEventListener('activate', (e) => {
+  e.waitUntil(
+    caches.keys().then(keys => Promise.all(
+      keys.filter(k => k !== CACHE).map(k => caches.delete(k))
+    ))
+  );
+}); 
+
+self.addEventListener('fetch', (e) => {
+  e.respondWith(
+    caches.match(e.request).then(res => res || fetch(e.request))
+  );
+});
+
+
+Onde colocar:
+
+
+/afrotalk/
+  ├── index.html (aquele que já te dei)
+  ├── manifest.json <- este
+  └── sw.js <- este
