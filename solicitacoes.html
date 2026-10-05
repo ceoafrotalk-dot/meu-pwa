@@ -1,60 +1,85 @@
-<!DOCTYPE html>
-<html lang="pt">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AfroTalk - Solicitações</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:sans-serif}
-body{background:#000;color:#fff;padding-bottom:70px}
-.header{padding:15px;font-size:20px;font-weight:bold;border-bottom:1px solid #222;position:sticky;top:0;background:#000;z-index:10}
-.pessoa{display:flex;gap:12px;padding:14px 15px;border-bottom:1px solid #1a1a1a;align-items:center}
-.pessoa img{width:48px;height:48px;border-radius:50%;border:2px solid #222}
-.btns{margin-left:auto;display:flex;gap:8px}
-.btn{padding:7px 14px;border-radius:20px;border:none;font-weight:bold;font-size:13px;cursor:pointer}
-.aceitar{background:#fff;color:#000}
-.rejeitar{background:#1a1a1a;color:#fff}
-.tabs{position:fixed;bottom:0;width:100%;display:flex;justify-content:space-around;background:#000;border-top:1px solid #222;padding:12px 0}
-.tabs button{background:none;border:none;font-size:22px;opacity:0.5}
-.tabs button.active{opacity:1}
-</style>
-</head>
-<body>
-<div class="header">Solicitações 👥</div>
+import { useState } from "react";
 
-<div class="pessoa">
-  <img src="https://i.pravatar.cc/100?img=2">
-  <div><b>João Cossa</b><br><small style="color:#888">Bilene • 2 amigos em comum</small></div>
-  <div class="btns">
-    <button class="btn aceitar" onclick="this.innerText='✓ Aceite'">Aceitar</button>
-    <button class="btn rejeitar" onclick="this.parentElement.parentElement.remove()">X</button>
-  </div>
-</div>
+export default function App() {
+  const [aba, setAba] = useState("solicitacoes"); // solicitacoes | chat
 
-<div class="pessoa">
-  <img src="https://i.pravatar.cc/100?img=1">
-  <div><b>Ana Massingue</b><br><small style="color:#888">Chissano • mora perto</small></div>
-  <div class="btns">
-    <button class="btn aceitar" onclick="this.innerText='✓ Aceite'">Aceitar</button>
-    <button class="btn rejeitar" onclick="this.parentElement.parentElement.remove()">X</button>
-  </div>
-</div>
+  const [paraSolicitar, setParaSolicitar] = useState([
+    { id: 1, nome: "Ana", visto: false },
+    { id: 2, nome: "João", visto: false },
+    { id: 3, nome: "Mia", visto: false },
+  ]);
 
-<div class="pessoa">
-  <img src="https://i.pravatar.cc/100?img=8">
-  <div><b>Carlos Mabjaia</b><br><small style="color:#888">Maputo • 5 amigos em comum</small></div>
-  <div class="btns">
-    <button class="btn aceitar" onclick="this.innerText='✓ Aceite'">Aceitar</button>
-    <button class="btn rejeitar" onclick="this.parentElement.parentElement.remove()">X</button>
-  </div>
-</div>
+  const [recebidas, setRecebidas] = useState([
+    { id: 10, nome: "Carlos" },
+    { id: 11, nome: "Pedro" },
+  ]);
 
-<nav class="tabs">
-  <button onclick="location.href='home.html'">🏠</button>
-  <button class="active">👥</button>
-  <button onclick="location.href='chat.html'">💬</button>
-  <button onclick="location.href='notificacoes.html'">🔔</button>
-  <button onclick="location.href='definicoes.html'">⚙️</button>
-</nav>
-</body>
-</html>
+  const [amigosChat, setAmigosChat] = useState([]);
+
+  // 1. USER CLICA SOLICITAR
+  const solicitar = (id) => {
+    setParaSolicitar(paraSolicitar.map(p => p.id === id? {...p, visto: true} : p));
+  };
+
+  // 2. ACEITAR SOLICITAÇÃO
+  const aceitar = (pessoa) => {
+    setAmigosChat([...amigosChat, pessoa]); // VAI PRO CHAT
+    setRecebidas(recebidas.filter(r => r.id!== pessoa.id));
+  };
+
+  const recusar = (id) => {
+    setRecebidas(recebidas.filter(r => r.id!== id));
+  };
+
+  return (
+    <div style={{ maxWidth: 500, margin: "0 auto", fontFamily: "Arial" }}>
+
+      {/* MENU ABAS */}
+      <div style={{ display: "flex", gap: 10, padding: 15, borderBottom: "1px solid #eee" }}>
+        <button onClick={() => setAba("solicitacoes")} style={{ flex: 1, padding: 10, background: aba === "solicitacoes"? "#FF6A00" : "#eee", color: aba === "solicitacoes"? "white" : "black", border: "none", borderRadius: 8, fontWeight: "bold" }}>Solicitações ({recebidas.length})</button>
+        <button onClick={() => setAba("chat")} style={{ flex: 1, padding: 10, background: aba === "chat"? "#25D366" : "#eee", color: aba === "chat"? "white" : "black", border: "none", borderRadius: 8, fontWeight: "bold" }}>Chat ({amigosChat.length})</button>
+      </div>
+
+      {aba === "solicitacoes" && (
+        <div style={{ padding: 15 }}>
+          <h3>👥 Lista de pessoas pra solicitar</h3>
+          {paraSolicitar.map(p => (
+            <div key={p.id} style={{ display: "flex", justifyContent: "space-between", padding: "12px 0", borderBottom: "1px solid #f0f0f0" }}>
+              <b>{p.nome}</b>
+              {p.visto? <span style={{ color: "#888" }}>Solicitação enviada ✅</span> : <button onClick={() => solicitar(p.id)} style={btn}>Solicitar</button>}
+            </div>
+          ))}
+
+          <h3 style={{ marginTop: 25 }}>📩 Na pessoa aparece: Aceitar & Recusar</h3>
+          {recebidas.map(r => (
+            <div key={r.id} style={{ display: "flex", justifyContent: "space-between", padding: "12px 0", borderBottom: "1px solid #f0f0f0" }}>
+              <b>{r.nome} quer ser seu amigo</b>
+              <div style={{ display: "flex", gap: 6 }}>
+                <button onClick={() => aceitar(r)} style={btnAceitar}>Aceitar solicitação</button>
+                <button onClick={() => recusar(r.id)} style={btnRecusar}>Recusar</button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {aba === "chat" && (
+        <div style={{ padding: 15 }}>
+          <h3>💬 Aba Chat - como amigo</h3>
+          {amigosChat.length === 0? <p>Nenhum amigo ainda. Aceita uma solicitação!</p> :
+            amigosChat.map(a => (
+              <div key={a.id} style={{ padding: 12, border: "1px solid #eee", borderRadius: 10, marginBottom: 10, display: "flex", alignItems: "center", gap: 10 }}>
+                <div style={{ width: 40, height: 40, borderRadius: 50, background: "#25D366", color: "white", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "bold" }}>{a.nome[0]}</div>
+                <div><b>{a.nome}</b><div style={{ fontSize: 12, color: "green" }}>Amigo • Online</div></div>
+              </div>
+            ))
+          }
+        </div>
+      )}
+    </div>
+  );
+}
+
+const btn = { background: "#FF6A00", color: "white", border: "none", padding: "6px 12px", borderRadius: 6, fontWeight: "bold", cursor: "pointer" };
+const btnAceitar = { background: "#1877F2", color: "white", border: "none", padding: "6px 10px", borderRadius: 6, fontWeight: "bold", cursor: "pointer" };
+const btnRecusar = { background: "#e4e6eb", border: "none", padding: "6px 10px", borderRadius: 6, cursor: "pointer" };
